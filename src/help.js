@@ -4,7 +4,7 @@ const help = (prefix, pushname, user, latensi, userXp, userLevel, role) => {
 | ◪ Seu Xp: ${userXp}
 | ◪ Seu Level: ${userLevel}
 
-Eu me chamo *Alice* ;)
+Eu me chamo *Alice* :)
 Levei exatamente *${latensi} segundos* para te responder!
 
 > *❏ Menu principal* <
