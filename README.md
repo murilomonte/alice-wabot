@@ -1,42 +1,39 @@
-<p align="center">
-<img src="https://static.wikia.nocookie.net/kenja-no-mago/images/8/85/Sizilien_von_klode_1.jpg/revision/latest/top-crop/width/300/height/300?cb=20190417164406" width="128" height="128"/>
-</p>
-<p align="center">
-<a href="#"><img title="Whatsapp-Bot" src="https://img.shields.io/badge/Termux Whatsapp Bot-green?colorA=%23ff0000&colorB=%23017e40&style=for-the-badge"></a>
-</p>
-<p align="center">
-<a href="https://github.com/mhankbarbar"><img title="Author" src="https://img.shields.io/badge/Author-mhankbarbar-red.svg?style=for-the-badge&logo=github"></a>
-</p>
-<p align="center">
-<a href="https://github.com/mhankbarbar/followers"><img title="Followers" src="https://img.shields.io/github/followers/mhankbarbar?color=blue&style=flat-square"></a>
-<a href="https://github.com/mhankbarbar/termux-wabot/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/mhankbarbar/termux-wabot?color=red&style=flat-square"></a>
-<a href="https://github.com/mhankbarbar/termux-wabot/network/members"><img title="Forks" src="https://img.shields.io/github/forks/mhankbarbar/termux-wabot?color=red&style=flat-square"></a>
-<a href="https://github.com/mhankbarbar/termux-wabot/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/mhankbarbar/termux-wabot?label=Watchers&color=blue&style=flat-square"></a>
-<a href="https://www.codefactor.io/repository/github/mhankbarbar/termux-wabot"><img src="https://www.codefactor.io/repository/github/mhankbarbar/termux-wabot/badge" alt="CodeFactor" /></a>
-<a href="#"><img title="MAINTENED" src="https://img.shields.io/badge/MAINTENED-YES-blue.svg"</a>
-</p>
+## Alice bot
+~~readme provisório~~ 
 
-## Clone this project
+Olá meu caro.
+Esse bot foi feito a partir do <a href="https://github.com/MhankBarBar/termux-wabot">termux-wabot</a> do Mhankbarbar.
+A Alice tem o intuito de ser acessível para todos que apenas desejam um bot pra qualquer motivo que seja.
+
+## Para instalalar: 
+### Clone esse repositório
 
 ```bash
-> git clone https://github.com/MhankBarBar/termux-wabot
+> git clone https://github.com/murilomonte/alice-wabot
 ```
 
-## Install the dependencies:
-Before running the below command, make sure you're in the project directory that
-you've just cloned!!
+### instale as dependências
+entre no diretótio onde você clonou o repositório:
 
 ```bash
-> cd termux-wabot
+> cd alice-wabot
+```
+
+Agora instale as dependências:
+```bash
 > bash install.sh
 ```
 
-### Usage
+### Uso
+para iniciar o bot use:
+
 ```bash
 > npm start
 ```
+e escaneie o qrcode.
 
-### Settings
+### Configurações
+
 ```json
 {
 	"prefix": ".",
@@ -45,7 +42,7 @@ you've just cloned!!
 }
 ```
 
-## Features
+## Funções principais
 
 | Sticker Creator |                Feature           |
 | :-----------: | :--------------------------------: |
@@ -81,13 +78,8 @@ you've just cloned!!
 |       ✅        |   Broadcast                      |
 |       ✅        |   Clear All Chats                |
 
-## Special Thanks to
+## Agradecimentos especiais para:
 * <a href="https://github.com/adiwajshing/Baileys"><img alt="GitHub" src="https://img.shields.io/badge/adiwajshing/Baileys%20-%23121011.svg?&style=for-the-badge&logo=github&logoColor=white"/></a>
+* <a href="https://github.com/MhankBarBar">Mhankbarbar</a>
 
-## Group
-* <a href="https://chat.whatsapp.com/KLfjq8AK4Jz62Pqfz5sv0v"><img alt="WhatsApp" src="https://img.shields.io/badge/WhatsApp%20Group-25D366?style=for-the-badge&logo=whatsapp&logoColor=white"/></a>
-
-### Donate
-* <a href="https://saweria.co/donate/mhankbarbar"><img alt="Saweria" src="https://img.shields.io/badge/Saweria-F16061?style=for-the-badge&logo=ko-fi&logoColor=white" /></a>
-* <a href="https://paypal.me/mhankbarbar"><img alt="Paypal" src="https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white" /></a>
 
