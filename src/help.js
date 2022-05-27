@@ -73,7 +73,7 @@ _Envie "ajuda" depois do comando para ver sua utilidade._
 Ex: /anime ajuda
 
 Quantidade de usuários: ${user.length}
-Feito com 🖤 por *Temoonlyn*`}
+Feito com 🖤 por *Moonly*`}
 
 exports.help = help
 
