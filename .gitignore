@@ -125,3 +125,12 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Optional npm cache directories
+.npm
+
+# lock-files
+package-lock.json
+
+# sessions file
+BarBar.json
