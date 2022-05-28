@@ -510,63 +510,6 @@ async function starts() {
                     }
                     break
       
-       case 'aviso':
-         if (!isOwner) return reply(mess.only.ownerB) 
-         reply(`*AVISO*
-         
-*A data de pagamento foi aberta.*
-O pagamento deve ser realizado até o dia 8.
-Valor: R$5,90
-
-Podem pagar através do picpay (caso tenham)
-Meu nome de usuário: *@murilo.temon*
-
-Através de pix: 
-53a01573-b0ed-4598-afb4-dd828c46443c
-ou
-murillomonte086@gmail.com
-
-Transferência bancária:
-Nome: Murilo Monte
-Banco: 380 - PicPay Serviços S.A - PicPay
-Agência: 0001
-Conta: 53111654-9
-CPF: 097.344.373-13
-
-Ou podem pagar para alguém próximo`)
-                    members_id = []
-                    teks = (args.length > 1) ? body.slice(8).trim() : ''
-                    teks += '\n\n'
-                    for (let mem of groupMembers) {
-                        teks += `*#* @${mem.jid.split('@')[0]}\n`
-                        members_id.push(mem.jid)
-                    }
-                    mentions(teks, members_id, true)
-                    
-break
-
-        case 'polaroid':
-         
-async function imageOverlay(imageOverlay) { // Function name is same as of file
-
-// Reading watermark Image
-   let watermark = await Jimp.read(imageOverlay);
-   watermark = watermark.resize(150,150); // Resizing watermark image
-// Reading original image
-   const image = await Jimp.read( isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek);
-   watermark = await watermark
-   image.composite(watermark, 0, 0, {
-      mode: Jimp.BLEND_SOURCE_OVER,
-      opacityDest: 1,
-      opacitySource: 0.5
-   })
-   await image.writeAsync('./lib/pola/newImage.png');
-}
-
-// Calling this function using async
-imageOverlay('./lib/pola/padrao.png');
-reply("Image is procesed successfully")
-          break
         case 'getmusic':
           let musicDir = args.join(" ")
           let musica = fs.readFileSync(`storage/emulated/0/${musicDir}.mp3`)
@@ -738,13 +681,14 @@ reply("Image is procesed successfully")
           break
       case 'info_server':
        let modelo = `» ｢ 𝐒𝐞𝐫𝐯𝐞𝐫 𝐈𝐧𝐟𝐨 ｣
- ➪ *Host* : _Endurance_
+ ➪ *Host* : _${os.hostname()}_
  ➪ *Platfrom* : _${os.platform()}_
- ➪ *CPU* : Exynos 7884
+ ➪ *CPU* : _${os.cpus()}_ 
  ➪ *Speed* : 6x 1352 MHz & 2x 1560 MHz
  ➪ *Core* : 6x ARM Cortex-A53 & 2x ARM Cortex-A73
  ➪ *Uso de RAM* : _${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require(`os`).totalmem / 1024 / 1024)}MB_
  `
+ console.log(os.cpus.model)
  reply(modelo)
         break
       case 'alicinha':
@@ -989,33 +933,6 @@ reply("Image is procesed successfully")
               client.sendMessage(from, tails, sticker)
             }
             break
-                case 'dia':
-                  const getdia = new Date
-                  let dia = getdia.getDay
-                  if (dia == 0) {
-                    reply('Domingo')
-                  } else if (dia == 1) {
-                    reply('Segunda')
-                  } else if (dia == 2) {
-                    reply('Terça')
-                  } else if (dia == 3) {
-                    reply('Quarta')
-                  } else if (dia == 4) {
-                    reply('Quinta')
-                  } else if (dia == 5) {
-                    reply('Sexta')
-                  } else {
-                    reply('Sabado')
-                  }
-                  
-                  
-                  
-                  
-                  break
-                case 'meo':
-                  let figu = fs.readFileSync("./lib/figurinhas/2.webp")
-                  await client.sendMessage(from, figu, sticker)
-                  break
                 case 'careca':
                   let reca = fs.readFileSync("./lib/images/careca.jpg")
                   await client.sendMessage(from, reca, image, {quoted: mek, caption: 'Oh grande André careca, nos dê a benção de sua careca brilhante 🙏🙏🙏🙏'})
