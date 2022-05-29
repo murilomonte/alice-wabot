@@ -633,25 +633,6 @@ async function starts() {
 					client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": videonye } })
 					break	
 					
-					
-                case 'randombokep':
-                    //if (isBanned) return reply(mess.only.benned)
-                    //if (isLimit(sender)) return reply(limitend(pushname2))
-                    //if (!isUser) return reply(mess.only.userB)
-
-                    data = fs.readFileSync('./database/json/18.js');
-                    jsonData = JSON.parse(data);
-                    randIndex = Math.floor(Math.random() * jsonData.length);
-                    randKey = jsonData[randIndex];
-                    randBokep = await getBuffer(randKey.image)
-                    reply(mess.wait)
-                    randTeks = randKey.teks
-                    client.sendMessage(from, randBokep, image, {
-                        quoted: mek,
-                        caption: randTeks
-                    })
-                    //await limitAdd(sender)
-                    break
      case 'softban':
 			if (isGroup && isGroupAdmins || isGroup && isOwner) {
 			if (!isGroupAdmins) return client.reply(from, mess.error, text)
