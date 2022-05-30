@@ -55,7 +55,6 @@ const {
     exec
 } = require('child_process')
 const fetch = require('node-fetch')
-const tiktod = require('tiktok-scraper')
 const ffmpeg = require('fluent-ffmpeg')
 const {
     removeBackgroundFromImageFile
@@ -465,7 +464,6 @@ async function starts() {
                 const buf2 = Buffer.from(last, "hex")
                 const buf3 = Buffer.from(bytes)
                 const buf4 = Buffer.from(JSON.stringify(json))
-
                 const buffer = Buffer.concat([littleEndian, buf2, buf3, buf4])
 
                 fs.writeFile(`./src/stickers/${name}.exif`, buffer, (err) => {
