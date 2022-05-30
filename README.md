@@ -1,4 +1,3 @@
-# Não mantido
 
 ## Alice bot
 ~~readme provisório~~ 
