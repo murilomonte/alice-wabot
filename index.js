@@ -271,7 +271,6 @@ async function starts() {
             const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()
             const args = body.trim().split(/ +/).slice(1)
             const isCmd = body.startsWith(prefix)
-
             const botNumber = client.user.jid
             const ownerNumber = [`${setting.ownerNumber}@s.whatsapp.net`] // replace this with your number
             const isGroup = from.endsWith('@g.us')
@@ -313,12 +312,6 @@ async function starts() {
                     admin: 'Esse comando só pode ser usado pelos Ademiros do grupo!',
                     Badmin: 'Esse comando só pode ser usado se eu for uma Ademira',
                     userB: `Olá ${pushname} :)\nHmm, não consigo encontrar você no meu banco de dados... Bem, se quiser usar meus comandos terá que se registrar!\nEnvie ${prefix}registrar para se registrar`,
-                    /*group: '❌ Perintah ini hanya bisa di gunakan dalam group! ❌',
-                    ownerG: '❌ Perintah ini hanya bisa di gunakan oleh owner group! ❌',
-                    ownerB: '❌ Perintah ini hanya bisa di gunakan oleh owner bot! ❌',
-                    admin: '❌ Perintah ini hanya bisa di gunakan oleh admin group! ❌',
-                    Badmin: '❌ Perintah ini hanya bisa di gunakan ketika bot menjadi admin! ❌'
-                    */
                 }
             }
 
@@ -797,7 +790,7 @@ async function starts() {
                 case 'shinobu':
                 case 'megumin':
                 case 'wallnime':
-                    ini_buffer = await getBuffer(`http://api.lolhuman.xyz/api/random/${command}?apikey=${lolapi}`)
+                        ini_buffer = await getBuffer(`http://api.lolhuman.xyz/api/random/${command}?apikey=${lolapi}`)
                     client.sendMessage(from, ini_buffer, image)
                     break
 
