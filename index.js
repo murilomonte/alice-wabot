@@ -633,6 +633,7 @@ async function starts() {
 					client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": videonye } })
 					break	
 					
+                    
      case 'softban':
 			if (isGroup && isGroupAdmins || isGroup && isOwner) {
 			if (!isGroupAdmins) return client.reply(from, mess.error, text)
@@ -900,8 +901,12 @@ async function starts() {
                    if (args.length == 0) return reply(`Envie um parâmetro depois do comando. Caso não tenha um, veja o comando ${prefix}random`)
                    let tipo = args[0]
                    let bjj = await fetchJson(`https://nekos.life/api/v2/img/${tipo}`)
-                   buffer = await getBuffer(bjj.url)
-                   client.sendMessage(from, buffer, image)
+                   if (bjj.msg == 404) {
+                       reply('Esse termo não existe ou não foi encontrado. Tente outro :)')
+                   } else {
+                        buffer = await getBuffer(bjj.url)
+                        client.sendMessage(from, buffer, image)
+                   }
                    break
         case 'flip':
             const side = Math.floor(Math.random() * 2) + 1
