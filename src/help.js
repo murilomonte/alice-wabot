@@ -12,10 +12,48 @@ _Aqui estão todos os meus comandos e seus submenus_
 
 > *❏ STICKERS* <
 _Comandos usados para fazer figurinhas_
+| ◪ *${prefix}stickermenu*
+
+> *❏ GRUPO* <
+  _Comandos usados somente em grupos_
+  | ◪ *${prefix}grupomenu*
+
+> *❏ ANIMES* <
+_Comandos dos otakus_
+| ◪ *${prefix}animenu*
+
+> *❏ UTILITÁRIOS* < 
+_Comandos que servem de utilitários_
+| ◪ *${prefix}utilmenu*
+
+> *❏ DOWNLOAD* <
+_Comandos para baixar coisas da internet_
+| ◪ *${prefix}downmenu*
+
+> *❏ OUTROS* <
+_Outros comandos_
+| ◪ *${prefix}outromenu*
+
+_Envie "ajuda" depois do comando para ver sua utilidade._
+Ex: /anime ajuda
+
+Quantidade de usuários: ${user.length}
+Feito com 🖤 por *Moonly*`}
+
+exports.help = help
+
+const stickermenu = (prefix, latensi) => {
+  return `> *❏ STICKERS* <
+_Comandos usados para fazer figurinhas_
 | ◪ *${prefix}s*
 | ◪ *${prefix}toimg*
 
-> *❏ GRUPO* <
+Levei exatamente *${latensi} segundos* para te responder!
+`}
+exports.stickermenu = stickermenu
+
+const grupo = (prefix, latensi) => {
+  return `> *❏ GRUPO* <
 _Comandos usados somente em grupos_
 | ◪ *${prefix}adicionar* [número]
 | ◪ *${prefix}remover* [tagname]
@@ -26,15 +64,25 @@ _Comandos usados somente em grupos_
 | ◪ *${prefix}tagall* 
 | ◪ *${prefix}admins*
 
-> *❏ ANIMES* <
+Levei exatamente *${latensi} segundos* para te responder!
+`}
+exports.grupo = grupo
+
+const anime = (prefix, latensi) => {
+  return `> *❏ ANIMES* <
 _Comandos dos otakus_
 | ◪ *${prefix}loli*
 | ◪ *${prefix}wait*
 | ◪ *${prefix}anime*
 | ◪ *${prefix}nekonime*
-| ◪ *${prefix}nekos_life*
+| ◪ *${prefix}nekos_life*  
 
-> *❏ UTILITÁRIOS* < 
+Levei exatamente *${latensi} segundos* para te responder!
+`}
+exports.anime = anime
+
+const utilitarios = (prefix, latensi) => {
+  return `> *❏ UTILITÁRIOS* < 
 _Comandos que servem de utilitários_
 | ◪ *${prefix}tts* [cc] (texto)
 | ◪ *${prefix}url2img* 
@@ -45,9 +93,14 @@ _Comandos que servem de utilitários_
 | ◪ *${prefix}brainly [pergunta]* 
 | ◪ *${prefix}scep [CEP]* 
 | ◪ *${prefix}placa [Placa]*
-| ◪ *${prefix}clima [cidade (sem acentos)]*
+| ◪ *${prefix}clima [cidade (sem acentos)]*  
 
-> *❏ DOWNLOAD* <
+Levei exatamente *${latensi} segundos* para te responder!
+`}
+exports.utilitarios = utilitarios
+
+const download = (prefix, latensi) => {
+  return `> *❏ DOWNLOAD* <
 _Comandos para baixar coisas da internet_
 | ◪ *${prefix}pinterest [Termo]*
 | ◪ *${prefix}joox [Artista - Música]*
@@ -58,7 +111,12 @@ _Comandos para baixar coisas da internet_
 | ◪ *${prefix}spotifysearch [artista - Música]*
 | ◪ *${prefix}spotify [link]*
 
-> *❏ OUTROS* <
+Levei exatamente *${latensi} segundos* para te responder!
+`}
+exports.download = download
+
+const outros = (prefix, latensi) => {
+  return `> *❏ OUTROS* <
 _Outros comandos_
 | ◪ *${prefix}tiktokstalk* [tagname]
 | ◪ *${prefix}setprefix* 
@@ -66,16 +124,10 @@ _Outros comandos_
 | ◪ *${prefix}rank*
 | ◪ *${prefix}random*
 | ◪ *${prefix}about*
-Considere ver o comando a cima para saber sobre mim :)
-_Mais em breve..._
 
-_Envie "ajuda" depois do comando para ver sua utilidade._
-Ex: /anime ajuda
-
-Quantidade de usuários: ${user.length}
-Feito com 🖤 por *Moonly*`}
-
-exports.help = help
+Levei exatamente *${latensi} segundos* para te responder!
+`}
+exports.outros = outros
 
 const rank = (pushname, role, userXp, userLevel) => {
   return `◪ *${pushname}*

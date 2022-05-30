@@ -23,6 +23,12 @@ const {
 } = require('./lib/color')
 const {
     help,
+    stickermenu,
+    grupo,
+    utilitarios,
+    download,
+    outros,
+    anime,
     rank,
     about,
     random
@@ -272,6 +278,7 @@ async function starts() {
             const isCmd = body.startsWith(prefix)
             const botNumber = client.user.jid
             const ownerNumber = [`${setting.ownerNumber}@s.whatsapp.net`] // replace this with your number
+            //const isGroup=  m.chat.endsWith("@g.us");
             const isGroup = from.endsWith('@g.us')
             const sender = isGroup ? mek.participant : mek.key.remoteJid
             const groupMetadata = isGroup ? await client.groupMetadata(from) : ''
@@ -301,7 +308,8 @@ async function starts() {
                 levelnoton: '[‼️]Desculpe, níveis não disponíveis',
                 levelnol: '*Seu nível ainda é 0',
                 error: {
-                    stick: 'Ocorreu um erro. Tente novamente.',
+                    stick: 'Ocorreu um erro ao processar o sticker. Tente novamente.',
+                    all: 'Ocorreu um erro inesperado (ou já esperado). Tente novamente mais tarde.',
                     Iv: 'link inválido'
                 },
                 only: {
@@ -313,7 +321,7 @@ async function starts() {
                     userB: `Olá ${pushname} :)\nHmm, não consigo encontrar você no meu banco de dados... Bem, se quiser usar meus comandos terá que se registrar!\nEnvie ${prefix}registrar para se registrar`,
                 }
             }
-
+            
             const isUrl = (url) => {
                 return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
             }
@@ -471,7 +479,7 @@ async function starts() {
                 })
 
             }
-
+            
             switch (command) {
 
                 case 'getmusic':
@@ -645,6 +653,10 @@ async function starts() {
                         ini_txt += `Desc : ${x.desc}\n\n`
                     }
                     reply(ini_txt)
+                    .catch(async (err) => {
+                        console.error(err)
+                        await reply(`${mess.error.all}\n\n Erro: ${err}`)
+                    })
                     break
 
                 case 'rastreio':
@@ -684,7 +696,7 @@ async function starts() {
                     if (args.length == 0) return reply(`Envie um parâmetro depois do comando. Caso não tenha um, veja o comando ${prefix}random`)
                     let tipo = args[0]
                     let bjj = await fetchJson(`https://nekos.life/api/v2/img/${tipo}`)
-                    if (bjj.msg == 404) {
+                    if (!bjj.url) {
                         reply('Esse termo não existe ou não foi encontrado. Tente outro :)')
                     } else {
                         buffer = await getBuffer(bjj.url)
@@ -741,6 +753,10 @@ async function starts() {
                     //let bufferr = await getBuffer(gsm.phone_image)
                     //console.log(bufferr)
                     reply(aparelho)
+                    .catch(async (err) => {
+                        console.error(err)
+                        await reply(`${mess.error.all}\n\n Erro: ${err}`)
+                    })
                     //client.sendMessage(from, bufferr, image)
                     //client.sendMessage(from, bufferr, image, {quoted: mek, caption: aparelho})
                     break
@@ -748,7 +764,7 @@ async function starts() {
                 case 'api_test':
                     let apit = args.join(" ")
                     if (args[0] == 'myapi') { apit = lolapi }
-                    let chek = await fetchJson(`http://lolhuman.xyz/api/checkapikey?apikey=${apit}`)
+                    let chek = await fetchJson(`http://api.lolhuman.xyz/api/checkapikey?apikey=${apit}`)
                     if (chek.status == 200) {
                         chek = chek.result
                         console.log(chek)
@@ -769,12 +785,6 @@ async function starts() {
                     }
                     break
 
-                case 'ssticker':
-                    busca = args[0]
-                    const fig = fetchJson(`http://lolhuman.herokuapp.com/api/stickerwa?apikey=${lolapi}&query=${busca}`, { method: get })
-                    client.sendMessage(from, fig, text)
-                    break
-
                 case 'art':
                 case 'bts':
                 case 'exo':
@@ -788,8 +798,12 @@ async function starts() {
                 case 'shinobu':
                 case 'megumin':
                 case 'wallnime':
-                        ini_buffer = await getBuffer(`http://api.lolhuman.xyz/api/random/${command}?apikey=${lolapi}`)
+                    ini_buffer = await getBuffer(`http://api.lolhuman.xyz/api/random/${command}?apikey=${lolapi}`)
+                    if (!ini_buffer) {
+                        reply(mess.error.all) 
+                    } else {
                     client.sendMessage(from, ini_buffer, image)
+                    }
                     break
 
                 case 'chiisaihentai':
@@ -813,6 +827,10 @@ async function starts() {
                 case 'hentai4everyone':
                     ini_buffer = await getBuffer(`http://api.lolhuman.xyz/api/random/nsfw/${command}?apikey=${lolapi}`)
                     client.sendMessage(from, ini_buffer, image)
+                        .catch(async (err) => {
+                            console.error(err)
+                            await reply(`${mess.error.all}\n\n Erro: ${err}`)
+                        })
                     break
 
                 case 'bj':
@@ -858,48 +876,11 @@ async function starts() {
                 case 'kemonomimi':
                 case 'nsfw_avatar':
                     ini_buffer = await getBuffer(`http://api.lolhuman.xyz/api/random2/${command}?apikey=${lolapi}`)
+                    if (!ini_buffer) {
+                        reply(mess.error.all) 
+                    } else {
                     client.sendMessage(from, ini_buffer, image)
-                    break
-
-                case 'ngif':
-                case 'nsfw_neko_gif':
-                case 'random_hentai_gif':
-                    ranp = getRandom('.gif')
-                    rano = getRandom('.webp')
-                    ini_buffer = `http://api.lolhuman.xyz/api/random2/${command}?apikey=${lolapi}`
-                    exec(`wget ${ini_buffer} -O ${ranp} && ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=15 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${rano}`, (err) => {
-                        fs.unlinkSync(ranp)
-                        buff = fs.readFileSync(rano)
-                        client.sendMessage(from, buff, sticker)
-                        fs.unlinkSync(rano)
-                    })
-                    break
-
-                case 'semoji':
-                    if (args.length == 0) return reply(`Example: ${prefix + command} 😭`)
-                    emoji = args[0]
-                    try {
-                        emoji = encodeURI(emoji[0])
-                    } catch {
-                        emoji = encodeURI(emoji)
                     }
-                    ini_buffer = await getBuffer(`http://api.lolhuman.xyz/api/smoji/${emoji}?apikey=${lolapi}`)
-                    client.sendMessage(from, ini_buffer, sticker)
-                    break
-
-                case 'translate':
-                    if (args.length == 0) return reply(`Example: ${prefix + command} en Tahu Bacem`)
-                    kode_negara = args[0]
-                    args.shift()
-                    ini_txt = args.join(" ")
-                    get_result = await fetchJson(`http://api.lolhuman.xyz/api/translate/auto/${kode_negara}?apikey=${lolapi}&text=${ini_txt}`)
-                    get_result = get_result.result
-                    init_txt = `From : ${get_result.from}\n`
-                    init_txt += `To : ${get_result.to}\n`
-                    init_txt += `Original : ${get_result.original}\n`
-                    init_txt += `Translated : ${get_result.translated}\n`
-                    init_txt += `Pronunciation : ${get_result.pronunciation}\n`
-                    reply(init_txt)
                     break
 
                 case 'leaderboard':
@@ -944,13 +925,12 @@ async function starts() {
                     break
 
                 case 'clima':
-
                     if (args.length == 0) return reply(from, 'Insira o nome da sua cidade.', text)
                     try {
                         const clima = await axios.get(`https://pt.wttr.in/${body.slice(7)}?format=Cidade%20=%20%l+\n\nEstado%20=%20%C+%c+\n\nTemperatura%20=%20%t+\n\nUmidade%20=%20%h\n\nVento%20=%20%w\n\nLua agora%20=%20%m\n\nNascer%20do%20Sol%20=%20%S\n\nPor%20do%20Sol%20=%20%s`)
                         client.sendMessage(from, `${clima.data}`, text)
                     } catch {
-                        await reply(from, 'Estranho...\nCertifique-se de não estar usando acentos ok?', text)
+                        await reply('Estranho...\nCertifique-se de não estar usando acentos ok?')
                     }
                     break
 
@@ -1043,6 +1023,10 @@ async function starts() {
                     client.sendMessage(from, daftarimg, image, {
                         quoted: mek,
                         caption: captionnya
+                    })
+                    .catch(async (err) => {
+                        console.error(err)
+                        await reply(`${mess.error.all}\n\n Erro: ${err}`)
                     })
                     break
 
@@ -1182,30 +1166,9 @@ async function starts() {
                     client.sendMessage(from, hasil, image, {
                         quoted: mek
                     })
-                    //await limitAdd(sender)
-                    break
-
-                case 'play':
-                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-
-                    if (args[0] == 'ajuda') return reply('Olá :)\nEnvie esse comando seguido de um link do Youtube que irei baixar como música pra você :)')
-                    // if (!isRegister) return reply(mess.only.daftarB)
-                    // if (isLimit(sender)) return reply(ind.limitend(pusname))
-                    reply(mess.wait)
-                    play = body.slice(5)
-                    anu = await fetchJson(`https://api.zeks.xyz/api/ytmp3/2?q=${play}&apikey=apivinz`)
-                    if (anu.error) return reply(anu.error)
-                    infomp3 = `*Música encontrada!!!*\nTítulo : ${anu.result.title}\nLink : ${anu.result.source}\nTamanho : ${anu.result.size}\n\n*Bem, é isso! Agora aguarde alguns minutos que irei enviar a música :)*`
-                    buffer = await getBuffer(anu.result.thumbnail)
-                    lagu = await getBuffer(anu.result.url_audio)
-                    client.sendMessage(from, buffer, image, {
-                        quoted: mek,
-                        caption: infomp3
-                    })
-                    client.sendMessage(from, lagu, audio, {
-                        mimetype: 'audio/mp4',
-                        filename: `${anu.title}.mp3`,
-                        quoted: mek
+                    .catch(async (err) => {
+                        console.error(err)
+                        await reply(`${mess.error.all}\n\n Erro: ${err}`)
                     })
                     //await limitAdd(sender)
                     break
@@ -1219,10 +1182,12 @@ async function starts() {
                 case 'random':
                     client.sendMessage(from, random(prefix), text)
                     brea
+
                 case 'about':
                 case 'sobre':
                     client.sendMessage(from, about(pushname), text)
                     break
+
                 case 'rank':
                     //userLevel = getLevelingLevel(sender)
                     //userXp = getLevelingXp(sender)
@@ -1236,6 +1201,42 @@ async function starts() {
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
                     if (!isUser) return reply(mess.only.userB)
                     client.sendMessage(from, help(prefix, pushname, user, latensi.toFixed(2), userXp, userLevel, role), text)
+                    break
+
+                case 'stickermenu':
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+                    if (!isUser) return reply(mess.only.userB)
+                    client.sendMessage(from, stickermenu(prefix, latensi.toFixed(2)), text)
+                    break
+
+                case 'grupomenu':
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+                    if (!isUser) return reply(mess.only.userB)
+                    client.sendMessage(from, grupo(prefix, latensi.toFixed(2)), text)
+                    break
+
+                case 'animenu':
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+                    if (!isUser) return reply(mess.only.userB)
+                    client.sendMessage(from, anime(prefix, latensi.toFixed(2)), text)
+                    break
+
+                case 'utilmenu':
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+                    if (!isUser) return reply(mess.only.userB)
+                    client.sendMessage(from, utilitarios(prefix, latensi.toFixed(2)), text)
+                    break
+
+                case 'downmenu':
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+                    if (!isUser) return reply(mess.only.userB)
+                    client.sendMessage(from, download(prefix, latensi.toFixed(2)), text)
+                    break
+
+                case 'outromenu':
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+                    if (!isUser) return reply(mess.only.userB)
+                    client.sendMessage(from, outros(prefix, latensi.toFixed(2)), text)
                     break
 
                 case 'info':
@@ -1571,7 +1572,6 @@ async function starts() {
 
                 case 'rebaixar':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-
                     if (args[0] == 'ajuda') return reply('Olá :)\nCaro Ademiro, você pode usar esse comando para promover outros Ademiros a membros!')
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
