@@ -237,7 +237,7 @@ async function starts() {
             blocked.push(i.replace('c.us', 's.whatsapp.net'))
         }
     })
-    
+
     client.on('chat-update', async (mek) => {
         try {
             if (!mek.hasNewMessage) return
@@ -321,7 +321,7 @@ async function starts() {
                     */
                 }
             }
-            
+
             const isUrl = (url) => {
                 return url.match(new RegExp(/https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/, 'gi'))
             }
@@ -338,19 +338,19 @@ async function starts() {
                     contextInfo: {
                         "mentionedJid": memberr
                     }
-                }): client.sendMessage(from, teks.trim(), extendedText, {
+                }) : client.sendMessage(from, teks.trim(), extendedText, {
                     quoted: mek,
                     contextInfo: {
                         "mentionedJid": memberr
                     }
                 })
             }
-            
+
             //function rank 
             const levelRole = getLevelingLevel(sender, _level)
             var role = 'Estagiário'
             if (levelRole <= 5) {
-                role = 'Júnior' 
+                role = 'Júnior'
             } else if (levelRole <= 6) {
                 role = 'bronze I'
             } else if (levelRole <= 7) {
@@ -425,17 +425,17 @@ async function starts() {
             const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
             const userLevel = getLevelingLevel(sender)
             const userXp = getLevelingXp(sender)
-                    const timestamp = speed();
-                    const latensi = speed() - timestamp
-                    //client.updatePresence(from, Presence.composing)
-                    uptime = process.uptime()
-     
+            const timestamp = speed();
+            const latensi = speed() - timestamp
+            //client.updatePresence(from, Presence.composing)
+            uptime = process.uptime()
+
             if (!isGroup && isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mExecutando\x1b[1;37m]', time, color(command), 'por', color(sender.split('@')[0]), 'argumentos :', color(args.length))
             if (!isGroup && !isCmd) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRecebido\x1b[1;37m]', time, color('Message'), 'por', color(sender.split('@')[0]), 'argumentos :', color(args.length))
             if (isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;32mExecutando\x1b[1;37m]', time, color(command), 'por', color(sender.split('@')[0]), 'em', color(groupName), 'argumentos :', color(args.length))
             if (!isCmd && isGroup) console.log('\x1b[1;31m~\x1b[1;37m>', '[\x1b[1;31mRecebido\x1b[1;37m]', time, color('Message'), 'por', color(sender.split('@')[0]), 'em', color(groupName), 'argumentos :', color(args.length))
             let authorname = client.contacts[from] != undefined ? client.contacts[from].vname || client.contacts[from].notify : undefined
-            if (authorname != undefined) {} else {
+            if (authorname != undefined) { } else {
                 authorname = groupName
             }
 
@@ -480,11 +480,11 @@ async function starts() {
                 })
 
             }
-            
+
             switch (command) {
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////
                 case 'roundsticker':
                     if ((isMedia && !client.message.videoMessage || isQuotedImage) && args.length == 0) {
                         const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
@@ -497,7 +497,7 @@ async function starts() {
                                 "img": fs.createReadStream(filePath)
                             },
                             encoding: "binary"
-                        }, function(error, response, body) {
+                        }, function (error, response, body) {
                             fs.unlinkSync(filePath)
                             fs.writeFileSync(file_name, body, "binary")
                             ini_buff = fs.readFileSync(file_name)
@@ -509,255 +509,254 @@ async function starts() {
                         reply(`Kirim gambar dengan caption ${prefix}sticker atau tag gambar yang sudah dikirim`)
                     }
                     break
-      
-        case 'getmusic':
-          let musicDir = args.join(" ")
-          let musica = fs.readFileSync(`storage/emulated/0/${musicDir}.mp3`)
-          client.sendMessage(from, música, audio, mp3)
-          break
-				case 'getsticker':
-				case 'gets':
-				//if (!isRegistered) return reply(ind.noregis())
-					namastc = body.slice(12)
-					let resultstik = fs.readFileSync(`./lib/database/sticker/${namastc}.webp`)
-					client.sendMessage(from, resultstik, sticker, {quoted :mek})
-					break
-				case 'stickerlist':
-				case 'liststicker':
-				//if (!isRegistered) return reply(ind.noregis())
-					teks = '*Banco de stickers :*\nUse /getsticker para vê-lo\n\n'
-					for (let awokwkwk of setiker) {
-						teks += `- ${awokwkwk}\n`
-					}
-					teks += `\n*Total : ${setiker.length}*`
-					client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": setiker } })
-					break
-				case 'addsticker':
-			//	if (!isRegistered) return reply(ind.noregis())
-					if (!isQuotedSticker) return reply('Responda um sticker com esse comando :)')
-					svst = body.slice(12)
-					if (!svst) return reply('Defina um nome para o sticker após o comando')
-					boij = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
-					delb = await client.downloadMediaMessage(boij)
-					setiker.push(`${svst}`)
-					fs.writeFileSync(`./lib/database/sticker/${svst}.webp`, delb)
-					fs.writeFileSync(`./lib/database/stik.json`, JSON.stringify(setiker))
-					client.sendMessage(from, `Sucesso!\nEnvie ${prefix}liststicker para ver a lista completa`, MessageType.text, { quoted: mek })
-					break
-				case 'addvn':
 
-			//	if (!isRegistered) return reply(ind.noregis())
-					if (!isQuotedAudio) return reply('Responda um áudio com esse comando :)')
-					svst = body.slice(7)
-					if (!svst) return reply('Envie um título após o comando')
-					boij = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
-					delb = await client.downloadMediaMessage(boij)
-					audionye.push(`${svst}`)
-					fs.writeFileSync(`./lib/database/audio/${svst}.mp3`, delb)
-					fs.writeFileSync('./lib/database/audio.json', JSON.stringify(audionye))
-					client.sendMessage(from, `Sucesso!\nEnvie ${prefix}listaudio para ver a lista completa`, MessageType.text, { quoted: mek })
-					break
-				case 'getvn':
-		
-			//	if (!isRegistered) return reply(ind.noregis())
-					namastc = body.slice(7)
-					buffer = fs.readFileSync(`./lib/database/audio/${namastc}.mp3`)
-					client.sendMessage(from, buffer, audio, { mimetype: 'audio/mp4', quoted: mek, ptt: true })
-					break
-				case 'listvn':
-				case 'vnlist':
-				case 'audiolist':
-				case 'listaudio':
-			//	if (!isRegistered) return reply(ind.noregis())
-					teks = '*Banco de áudios:*\nUse /getaudio para ouvi-lo\n\n'
-					for (let awokwkwk of audionye) {
-						teks += `- ${awokwkwk}\n`
-					}
-					teks += `\n*Total : ${audionye.length}*`
-					client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": audionye } })
-					break
-				case 'addimage':
-			//	if (!isRegistered) return reply(ind.noregis())
-					if (!isQuotedImage) return reply('Responda uma imagem com esse comando :)')
-					svst = body.slice(10)
-					if (!svst) return reply('Envie um título depois do comando')
-					boij = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
-					delb = await client.downloadMediaMessage(boij)
-					imagenye.push(`${svst}`)
-					fs.writeFileSync(`./lib/database/image/${svst}.jpeg`, delb)
-					fs.writeFileSync('./lib/database/image.json', JSON.stringify(imagenye))
-					client.sendMessage(from, `Sucesso!\nEnvie ${prefix}listimage para ver a lista completa`, MessageType.text, { quoted: mek })
-					break
-				case 'getimage':
-			//	if (!isRegistered) return reply(ind.noregis())
-					namastc = body.slice(10)
-					buffer = fs.readFileSync(`./lib/database/image/${namastc}.jpeg`)
-					client.sendMessage(from, buffer, image, { quoted: mek, caption: `Resultado da base de dados : ${namastc}.jpeg` })
-					break
-				case 'imagelist':
-				case 'listimage':
-		//		if (!isRegistered) return reply(ind.noregis())
-					teks = '*Banco de imagens :*\nUse /getimage seguido do nome da imagem para vê-la :)\n\n'
-					for (let awokwkwk of imagenye) {
-						teks += `- ${awokwkwk}\n`
-					}
-					teks += `\n*Total : ${imagenye.length}*`
-					client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": imagenye } })
-					break
-				case 'addvideo':
-		//		if (!isRegistered) return reply(ind.noregis())
-					if (!isQuotedVideo) return reply('Responda um vídeo com esse comando :)')
-					svst = body.slice(10)
-					if (!svst) return reply('Envie um título pra ele logo em seguida do comando.')
-					boij = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
-					delb = await client.downloadMediaMessage(boij)
-					videonye.push(`${svst}`)
-					fs.writeFileSync(`./lib/database/video/${svst}.mp4`, delb)
-					fs.writeFileSync('./lib/database/video.json', JSON.stringify(videonye))
-					client.sendMessage(from, `Sucesso!\nEnvie ${prefix}listvideo para ver a lista completa`, MessageType.text, { quoted: mek })
-					break
-				case 'getvideo':
-			//	if (!isRegistered) return reply(ind.noregis())
-					namastc = body.slice(10)
-					buffer = fs.readFileSync(`./lib/database/video/${namastc}.mp4`)
-					client.sendMessage(from, buffer, video, { mimetype: 'video/mp4', quoted: mek })
-					break
-				case 'listvideo':
-				case 'videolist':
-				//if (!isRegistered) return reply(ind.noregis())
-					teks = '*Banco de vídeos :*\nUse /getvideos seguido do título para vê-lo.\n\n'
-					for (let awokwkwk of videonye) {
-						teks += `- ${awokwkwk}\n`
-					}
-					teks += `\n*Total : ${videonye.length}*`
-					client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": videonye } })
-					break	
-					
-                    
-     case 'softban':
-			if (isGroup && isGroupAdmins || isGroup && isOwner) {
-			if (!isGroupAdmins) return client.reply(from, mess.error, text)
-		  if (args.length == 0) return reply(`Mencione e informe o tempo que o meliante ficará banido, caro adm :)\nEx: ${prefix}softban @MilfHunter 20`)
-					const tempoban = args[1] * 60000
-					const bgmcomum = mek.message.extendedTextMessage.contextInfo.mentionedJid
-					console.log(bgmcomum)
-					reply(`Ihhhh, parece que vc irritou algum ADM, daqui a ${args[1]}minutos eu te coloco de volta!`)
-				  client.groupRemove(from, bgmcomum)
-					setTimeout(() => {
-						reply('Está na hora de colocar o nosso querido ~corno~ membro.')
-						client.groupAdd(from, bgmcomum)
-					  reply(`Espero que você tenha repensado suas ações e se acalmado. :)`)
-					}, tempoban) //20 minutos em milissegundos
-					sleep(tempoban)
-			} else if (!isGroup) {
-				reply(mess.only.group)
-			} else {
-			 reply(`ocorreu um erro, tentw novamente`)
-			}
-      break
-     case 'igdl':
-          let iglink = args[0]
-          let resultaado = await fetchJson(`https://videfikri.com/api/igdl/?url=${iglink}`)
-          let vidiu = await getBuffer(resultaado.result.video)
-          client.sendMessage(from, vidiu, video)
-          break
-      case 'info_server':
-       let modelo = `» ｢ 𝐒𝐞𝐫𝐯𝐞𝐫 𝐈𝐧𝐟𝐨 ｣
- ➪ *Host* : _${os.hostname()}_
- ➪ *Platfrom* : _${os.platform()}_
- ➪ *CPU* : _${os.cpus()}_ 
- ➪ *Speed* : 6x 1352 MHz & 2x 1560 MHz
- ➪ *Core* : 6x ARM Cortex-A53 & 2x ARM Cortex-A73
- ➪ *Uso de RAM* : _${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require(`os`).totalmem / 1024 / 1024)}MB_
+                case 'getmusic':
+                    let musicDir = args.join(" ")
+                    let musica = fs.readFileSync(`storage/emulated/0/${musicDir}.mp3`)
+                    client.sendMessage(from, música, audio, mp3)
+                    break
+                case 'getsticker':
+                case 'gets':
+                    //if (!isRegistered) return reply(ind.noregis())
+                    namastc = body.slice(12)
+                    let resultstik = fs.readFileSync(`./lib/database/sticker/${namastc}.webp`)
+                    client.sendMessage(from, resultstik, sticker, { quoted: mek })
+                    break
+                case 'stickerlist':
+                case 'liststicker':
+                    //if (!isRegistered) return reply(ind.noregis())
+                    teks = '*Banco de stickers :*\nUse /getsticker para vê-lo\n\n'
+                    for (let awokwkwk of setiker) {
+                        teks += `- ${awokwkwk}\n`
+                    }
+                    teks += `\n*Total : ${setiker.length}*`
+                    client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": setiker } })
+                    break
+                case 'addsticker':
+                    //	if (!isRegistered) return reply(ind.noregis())
+                    if (!isQuotedSticker) return reply('Responda um sticker com esse comando :)')
+                    svst = body.slice(12)
+                    if (!svst) return reply('Defina um nome para o sticker após o comando')
+                    boij = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
+                    delb = await client.downloadMediaMessage(boij)
+                    setiker.push(`${svst}`)
+                    fs.writeFileSync(`./lib/database/sticker/${svst}.webp`, delb)
+                    fs.writeFileSync(`./lib/database/stik.json`, JSON.stringify(setiker))
+                    client.sendMessage(from, `Sucesso!\nEnvie ${prefix}liststicker para ver a lista completa`, MessageType.text, { quoted: mek })
+                    break
+                case 'addvn':
+
+                    //	if (!isRegistered) return reply(ind.noregis())
+                    if (!isQuotedAudio) return reply('Responda um áudio com esse comando :)')
+                    svst = body.slice(7)
+                    if (!svst) return reply('Envie um título após o comando')
+                    boij = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
+                    delb = await client.downloadMediaMessage(boij)
+                    audionye.push(`${svst}`)
+                    fs.writeFileSync(`./lib/database/audio/${svst}.mp3`, delb)
+                    fs.writeFileSync('./lib/database/audio.json', JSON.stringify(audionye))
+                    client.sendMessage(from, `Sucesso!\nEnvie ${prefix}listaudio para ver a lista completa`, MessageType.text, { quoted: mek })
+                    break
+                case 'getvn':
+
+                    //	if (!isRegistered) return reply(ind.noregis())
+                    namastc = body.slice(7)
+                    buffer = fs.readFileSync(`./lib/database/audio/${namastc}.mp3`)
+                    client.sendMessage(from, buffer, audio, { mimetype: 'audio/mp4', quoted: mek, ptt: true })
+                    break
+                case 'listvn':
+                case 'vnlist':
+                case 'audiolist':
+                case 'listaudio':
+                    //	if (!isRegistered) return reply(ind.noregis())
+                    teks = '*Banco de áudios:*\nUse /getaudio para ouvi-lo\n\n'
+                    for (let awokwkwk of audionye) {
+                        teks += `- ${awokwkwk}\n`
+                    }
+                    teks += `\n*Total : ${audionye.length}*`
+                    client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": audionye } })
+                    break
+                case 'addimage':
+                    //	if (!isRegistered) return reply(ind.noregis())
+                    if (!isQuotedImage) return reply('Responda uma imagem com esse comando :)')
+                    svst = body.slice(10)
+                    if (!svst) return reply('Envie um título depois do comando')
+                    boij = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
+                    delb = await client.downloadMediaMessage(boij)
+                    imagenye.push(`${svst}`)
+                    fs.writeFileSync(`./lib/database/image/${svst}.jpeg`, delb)
+                    fs.writeFileSync('./lib/database/image.json', JSON.stringify(imagenye))
+                    client.sendMessage(from, `Sucesso!\nEnvie ${prefix}listimage para ver a lista completa`, MessageType.text, { quoted: mek })
+                    break
+                case 'getimage':
+                    //	if (!isRegistered) return reply(ind.noregis())
+                    namastc = body.slice(10)
+                    buffer = fs.readFileSync(`./lib/database/image/${namastc}.jpeg`)
+                    client.sendMessage(from, buffer, image, { quoted: mek, caption: `Resultado da base de dados : ${namastc}.jpeg` })
+                    break
+                case 'imagelist':
+                case 'listimage':
+                    //		if (!isRegistered) return reply(ind.noregis())
+                    teks = '*Banco de imagens :*\nUse /getimage seguido do nome da imagem para vê-la :)\n\n'
+                    for (let awokwkwk of imagenye) {
+                        teks += `- ${awokwkwk}\n`
+                    }
+                    teks += `\n*Total : ${imagenye.length}*`
+                    client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": imagenye } })
+                    break
+                case 'addvideo':
+                    //		if (!isRegistered) return reply(ind.noregis())
+                    if (!isQuotedVideo) return reply('Responda um vídeo com esse comando :)')
+                    svst = body.slice(10)
+                    if (!svst) return reply('Envie um título pra ele logo em seguida do comando.')
+                    boij = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
+                    delb = await client.downloadMediaMessage(boij)
+                    videonye.push(`${svst}`)
+                    fs.writeFileSync(`./lib/database/video/${svst}.mp4`, delb)
+                    fs.writeFileSync('./lib/database/video.json', JSON.stringify(videonye))
+                    client.sendMessage(from, `Sucesso!\nEnvie ${prefix}listvideo para ver a lista completa`, MessageType.text, { quoted: mek })
+                    break
+                case 'getvideo':
+                    //	if (!isRegistered) return reply(ind.noregis())
+                    namastc = body.slice(10)
+                    buffer = fs.readFileSync(`./lib/database/video/${namastc}.mp4`)
+                    client.sendMessage(from, buffer, video, { mimetype: 'video/mp4', quoted: mek })
+                    break
+                case 'listvideo':
+                case 'videolist':
+                    //if (!isRegistered) return reply(ind.noregis())
+                    teks = '*Banco de vídeos :*\nUse /getvideos seguido do título para vê-lo.\n\n'
+                    for (let awokwkwk of videonye) {
+                        teks += `- ${awokwkwk}\n`
+                    }
+                    teks += `\n*Total : ${videonye.length}*`
+                    client.sendMessage(from, teks.trim(), extendedText, { quoted: mek, contextInfo: { "mentionedJid": videonye } })
+                    break
+
+
+                case 'softban':
+                    if (isGroup && isGroupAdmins || isGroup && isOwner) {
+                        if (!isGroupAdmins) return client.reply(from, mess.error, text)
+                        if (args.length == 0) return reply(`Mencione e informe o tempo que o meliante ficará banido, caro adm :)\nEx: ${prefix}softban @MilfHunter 20`)
+                        const tempoban = args[1] * 60000
+                        const bgmcomum = mek.message.extendedTextMessage.contextInfo.mentionedJid
+                        console.log(bgmcomum)
+                        reply(`Ihhhh, parece que vc irritou algum ADM, daqui a ${args[1]}minutos eu te coloco de volta!`)
+                        client.groupRemove(from, bgmcomum)
+                        setTimeout(() => {
+                            reply('Está na hora de colocar o nosso querido ~corno~ membro.')
+                            client.groupAdd(from, bgmcomum)
+                            reply(`Espero que você tenha repensado suas ações e se acalmado. :)`)
+                        }, tempoban) //20 minutos em milissegundos
+                        sleep(tempoban)
+                    } else if (!isGroup) {
+                        reply(mess.only.group)
+                    } else {
+                        reply(`ocorreu um erro, tentw novamente`)
+                    }
+                    break
+                case 'igdl':
+                    let iglink = args[0]
+                    let resultaado = await fetchJson(`https://videfikri.com/api/igdl/?url=${iglink}`)
+                    let vidiu = await getBuffer(resultaado.result.video)
+                    client.sendMessage(from, vidiu, video)
+                    break
+                case 'info_server':
+                    let modelo = `» ｢ 𝐒𝐞𝐫𝐯𝐞𝐫 𝐈𝐧𝐟𝐨 ｣
+ *Hostname* : _${os.hostname()}_
+ *Platfrom* : _${os.platform()}_
+ *CPU* : _${os.cpus()[0].model}_ 
+ *Speed* : _${os.cpus()[0].speed}MHz_
+ *RAM usage* : _${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require(`os`).totalmem / 1024 / 1024)}MB_
  `
- console.log(os.cpus.model)
- reply(modelo)
-        break
-      case 'alicinha':
-          let query = body.slice(7)
-          let alice = await fetchJson(`https://videfikri.com/api/simsimi/?teks=${query}`)
-          console.log(alice.result)
-          let resposta = alice.result.jawaban
-          client.sendMessage(from, resposta, text, {quoted: mek})
-          break
+                    reply(modelo)
 
-      case 'ninja':      
-               
-          let nome = args[0]    
-          let sub = args[1]
-				  //let nub = await fetchJson(`http://lolhuman.herokuapp.com/api/textprome2/ninjalogo?apikey=${lolapi}&text1=${nome}&text2=${sub}`, {method: 'get'})
-          buffer = await getBuffer(`http://lolhuman.herokuapp.com/api/textprome2/ninjalogo?apikey=${lolapi}&text1=${nome}&text2=${sub}`)
-          client.sendMessage(from, buffer, image)
-					//client.sendMessage(from, buffer, image)
-          //await limitAdd(sender)
-          break	
-		case 'escreva3':
-				 				
-                // if (!isRegistered) return reply( ind.noregis())
-				//if (isLimit(sender)) return reply(ind.limitend(pusname))
-				//if (isBanned) return reply('Maaf kamu sudah terbenned!')
-				if (args.length < 1) return reply(ind.wrongf())
-				ct = body.slice(7)
-				reply(mess.wait)
-				anu = await fetchJson(`https://videfikri.com/api/nulis/?query=${ct}`, {method: 'get'})
-				gools5 = await getBuffer(anu.image)
-				client.sendMessage(from, gools5, image, {caption: 'Nih kak udah jadi..', quoted: mek})
-				//await limitAdd(sender)
-				break
-		case 'escreva2':
-				 				
-                // if (!isRegistered) return reply( ind.noregis())
-				//if (isLimit(sender)) return reply(ind.limitend(pusname))
-				//if (isBanned) return reply('Maaf kamu sudah terbenned!')
-				if (args.length < 1) return reply(ind.wrongf())
-				ct = body.slice(7)
-				ll1 = ct.split("/")[0];
-                ll2 = ct.split("/")[1];
-                ll3 = ct.split("/")[2];
-                ll4 = ct.split("/")[3];
-				reply(mess.wait)
-				ct = await getBuffer(`https://api.zeks.xyz/api/magernulis?nama=${ll1}&kelas=${ll2}&text=${ll3}&tinta=${ll4}`)
-				client.sendMessage(from, ct, image, {caption: 'Nih kak udah jadi..', quoted: mek})
-				//await limitAdd(sender)
-				break
-		case 'escreva4':
-				 				
-                 //if (!isRegistered) return reply( ind.noregis())
-				//if (isLimit(sender)) return reply(ind.limitend(pusname))
-				//if (isBanned) return reply('Maaf kamu sudah terbenned!')
-				if (args.length < 1) return reply(ind.wrongf())
-				ct = body.slice(7)
-				reply(mess.wait)
-				ct = await getBuffer(`https://api.vhtear.com/write?text=${ct}&apikey=c1d162b46e634f389efa1ac715f03d03`)
-				client.sendMessage(from, ct, image, {caption: 'Nih kak udah jadi..', quoted: mek})
-				//await limitAdd(sender)
-				break				
-				case 'phcomment':
-                	
-					var gh = body.slice(11)
-					var yogi = gh.split("/")[0];
-					var cmnt = gh.split("/")[1];
-					if (args.length < 1) return reply(`Exemplo: ${prefix}phcomment Yogi/yahahaha`)
-					reply(mess.wait)
-					yogi = await getBuffer(`https://api.zeks.xyz/api/phub?apikey=apivinz&img=https://1.bp.blogspot.com/-x8KhcOBG-yw/XiU4pi1yWVI/AAAAAAAADBA/gK8tsLyc1lQ808A348IKzDCjf6fUBKONwCLcBGAsYHQ/s1600/cara%2Bbuat%2Bfoto%2Bprofil%2Bdi%2Bwhatsapp%2Bmenjadi%2Bunik.jpg&username=${yogi}&msg=${cmnt}`)
-					client.sendMessage(from, yogi, image, {quoted: mek})
-					//await limitAdd(sender)
-				break        
-         case 'escreva':
-        if (!isUser) return reply(mess.only.userB)
-				//if (isLimit(sender)) return reply(ind.limitend(pusname))
-				//if (isBanned) return reply('Desculpe, você foi banido!')
-				if (args.length < 1) return reply(ind.wrongf())
-				ct = body.slice(8)
-				reply(mess.wait)
-				ct = await getBuffer(`https://api.zeks.xyz/api/nulis?text=${ct}&apikey=apivinz`)
-				client.sendMessage(from, ct, image, {caption: 'Escrevi pra você, jovem', quoted: mek})
-				//await limitAdd(sender)
-				break
+                    break
+                case 'alicinha':
+                    let query = body.slice(7)
+                    let alice = await fetchJson(`https://videfikri.com/api/simsimi/?teks=${query}`)
+                    console.log(alice.result)
+                    let resposta = alice.result.jawaban
+                    client.sendMessage(from, resposta, text, { quoted: mek })
+                    break
+
+                case 'ninja':
+
+                    let nome = args[0]
+                    let sub = args[1]
+                    //let nub = await fetchJson(`http://lolhuman.herokuapp.com/api/textprome2/ninjalogo?apikey=${lolapi}&text1=${nome}&text2=${sub}`, {method: 'get'})
+                    buffer = await getBuffer(`http://lolhuman.herokuapp.com/api/textprome2/ninjalogo?apikey=${lolapi}&text1=${nome}&text2=${sub}`)
+                    client.sendMessage(from, buffer, image)
+                    //client.sendMessage(from, buffer, image)
+                    //await limitAdd(sender)
+                    break
+                case 'escreva3':
+
+                    // if (!isRegistered) return reply( ind.noregis())
+                    //if (isLimit(sender)) return reply(ind.limitend(pusname))
+                    //if (isBanned) return reply('Maaf kamu sudah terbenned!')
+                    if (args.length < 1) return reply(ind.wrongf())
+                    ct = body.slice(7)
+                    reply(mess.wait)
+                    anu = await fetchJson(`https://videfikri.com/api/nulis/?query=${ct}`, { method: 'get' })
+                    gools5 = await getBuffer(anu.image)
+                    client.sendMessage(from, gools5, image, { caption: 'Nih kak udah jadi..', quoted: mek })
+                    //await limitAdd(sender)
+                    break
+                case 'escreva2':
+
+                    // if (!isRegistered) return reply( ind.noregis())
+                    //if (isLimit(sender)) return reply(ind.limitend(pusname))
+                    //if (isBanned) return reply('Maaf kamu sudah terbenned!')
+                    if (args.length < 1) return reply(ind.wrongf())
+                    ct = body.slice(7)
+                    ll1 = ct.split("/")[0];
+                    ll2 = ct.split("/")[1];
+                    ll3 = ct.split("/")[2];
+                    ll4 = ct.split("/")[3];
+                    reply(mess.wait)
+                    ct = await getBuffer(`https://api.zeks.xyz/api/magernulis?nama=${ll1}&kelas=${ll2}&text=${ll3}&tinta=${ll4}`)
+                    client.sendMessage(from, ct, image, { caption: 'Nih kak udah jadi..', quoted: mek })
+                    //await limitAdd(sender)
+                    break
+                case 'escreva4':
+
+                    //if (!isRegistered) return reply( ind.noregis())
+                    //if (isLimit(sender)) return reply(ind.limitend(pusname))
+                    //if (isBanned) return reply('Maaf kamu sudah terbenned!')
+                    if (args.length < 1) return reply(ind.wrongf())
+                    ct = body.slice(7)
+                    reply(mess.wait)
+                    ct = await getBuffer(`https://api.vhtear.com/write?text=${ct}&apikey=c1d162b46e634f389efa1ac715f03d03`)
+                    client.sendMessage(from, ct, image, { caption: 'Nih kak udah jadi..', quoted: mek })
+                    //await limitAdd(sender)
+                    break
+                case 'phcomment':
+
+                    var gh = body.slice(11)
+                    var yogi = gh.split("/")[0];
+                    var cmnt = gh.split("/")[1];
+                    if (args.length < 1) return reply(`Exemplo: ${prefix}phcomment Yogi/yahahaha`)
+                    reply(mess.wait)
+                    yogi = await getBuffer(`https://api.zeks.xyz/api/phub?apikey=apivinz&img=https://1.bp.blogspot.com/-x8KhcOBG-yw/XiU4pi1yWVI/AAAAAAAADBA/gK8tsLyc1lQ808A348IKzDCjf6fUBKONwCLcBGAsYHQ/s1600/cara%2Bbuat%2Bfoto%2Bprofil%2Bdi%2Bwhatsapp%2Bmenjadi%2Bunik.jpg&username=${yogi}&msg=${cmnt}`)
+                    client.sendMessage(from, yogi, image, { quoted: mek })
+                    //await limitAdd(sender)
+                    break
+                case 'escreva':
+                    if (!isUser) return reply(mess.only.userB)
+                    //if (isLimit(sender)) return reply(ind.limitend(pusname))
+                    //if (isBanned) return reply('Desculpe, você foi banido!')
+                    if (args.length < 1) return reply(ind.wrongf())
+                    ct = body.slice(8)
+                    reply(mess.wait)
+                    ct = await getBuffer(`https://api.zeks.xyz/api/nulis?text=${ct}&apikey=apivinz`)
+                    client.sendMessage(from, ct, image, { caption: 'Escrevi pra você, jovem', quoted: mek })
+                    //await limitAdd(sender)
+                    break
                 case 'f':
-                  client.sendMessage(from, 'Press F to pay respect', text)
-                  client.sendMessage(from, 'F', text)
-                  break
+                    client.sendMessage(from, 'Press F to pay respect', text)
+                    client.sendMessage(from, 'F', text)
+                    break
                 case 'buscar':
                     if (args.length == 0) return reply(`Example: ${prefix + command} loli kawaii`)
                     query = args.join(" ")
@@ -770,35 +769,34 @@ async function starts() {
                         ini_txt += `Desc : ${x.desc}\n\n`
                     }
                     reply(ini_txt)
-                    break                
+                    break
                 case 'rastreio':
-                  let codigo = args[0]
-                  const track = await rastro.track(`${codigo}`);
-                  console.log(track)
-                  let result = `*Código* : ${track[0].code}\n\n`
-                  result += `*Tipo* : ${track[0].type}\n\n`
-                  result += `*Está entregue?* : ${track[0].isDelivered}\n\n`
-                  result += `*Postado em* : ${track[0].postedAt}\n\n`
-                  result += `*Última atualização* : ${track[0].updatedAt}`
-                  client.sendMessage(from, result, text, {quoted: mek})
-                  break
+                    let codigo = args[0]
+                    const track = await rastro.track(`${codigo}`);
+                    console.log(track)
+                    let result = `*Código* : ${track[0].code}\n\n`
+                    result += `*Tipo* : ${track[0].type}\n\n`
+                    result += `*Está entregue?* : ${track[0].isDelivered}\n\n`
+                    result += `*Postado em* : ${track[0].postedAt}\n\n`
+                    result += `*Última atualização* : ${track[0].updatedAt}`
+                    client.sendMessage(from, result, text, { quoted: mek })
+                    break
                 case 'figu':
-                
                     if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
                         const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
                         const media = await client.downloadAndSaveMediaMessage(encmedia)
                         ran = getRandom('.webp')
                         await ffmpeg(`./${media}`)
                             .input(media)
-                            .on('start', function(cmd) {
+                            .on('start', function (cmd) {
                                 console.log(`Started : ${cmd}`)
                             })
-                            .on('error', function(err) {
+                            .on('error', function (err) {
                                 console.log(`Error : ${err}`)
                                 fs.unlinkSync(media)
                                 reply(mess.error.stick)
                             })
-                            .on('end', function() {
+                            .on('end', function () {
                                 console.log('Finish')
                                 exec(`webpmux -set exif ${addMetadata('Luna_Bot', 'by Temon')} ${ran} -o ${ran}`, async (error) => {
                                     if (error) return reply(mess.error.stick)
@@ -817,22 +815,22 @@ async function starts() {
                         reply(mess.wait)
                         await ffmpeg(`./${media}`)
                             .inputFormat(media.split('.')[1])
-                            .on('start', function(cmd) {
+                            .on('start', function (cmd) {
                                 console.log(`Started : ${cmd}`)
                             })
-                            .on('error', function(err) {
+                            .on('error', function (err) {
                                 console.log(`Error : ${err}`)
                                 fs.unlinkSync(media)
                                 tipe = media.endsWith('.mp4') ? 'video' : 'gif'
                                 reply(`Ocorreu um erro ao converter o ${tipe} em figurinha. Tente novamente.`)
                             })
-                            .on('end', function() {
+                            .on('end', function () {
                                 console.log('Finish')
                                 /*exec(`webpmux -set exif ${addMetadata('Luna_Bot', 'by Temon')} ${ran} -o ${ran}`, async (error) => {
-                                	if (error) return reply(mess.error.stick)
-                                	await costum(fs.readFileSync(ran), sticker, FarhanGans, `~ Nih Dah Jadi Gif Stikernya`)
-                                	fs.unlinkSync(media)
-                                	fs.unlinkSync(ran)
+                                    if (error) return reply(mess.error.stick)
+                                    await costum(fs.readFileSync(ran), sticker, FarhanGans, `~ Nih Dah Jadi Gif Stikernya`)
+                                    fs.unlinkSync(media)
+                                    fs.unlinkSync(ran)
                                 })*/
                             })
                             .addOutputOptions([`-vcodec`, `libwebp`, `-vf`, `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
@@ -873,103 +871,103 @@ async function starts() {
                         reply(`Envie fotos com a legenda ${prefix}s que faço uma figurinha rapidinho pra você :)`)
                     }
                     break
-                 
-                 case 'elogio':
-                   reply('Eu gostei muito mesmo. Perfeito!!')
-                   break
-                 case 'travazap':
-                   if (args.length == 0) return reply('Informe o número a ser travado :)')
-                   client.groupRemove(mek)
-                   client.sendMessage(from, 'Travazaper tem que se fudê e acabô porra >:(', text)
-                   break
-                 case 'alice':
-                        console.log(budy)
-                        muehe = await simih(budy)
-                        console.log(muehe)
-                        reply(muehe)
-                        break
-                 case 'scpf':
-                   let num = args[0]
-                   let cpf = await fetchJson(`https://hollibot.com/0006hacker/cpf.php?cpf=${num}`)
-                   console.log(cpf)
-                   break
-                 case 'nekos':
-                 case 'nekos.life':
-                 case 'nekolife':
-                 case 'nl':
-                 case 'nekos_life':
-                   if (args.length == 0) return reply(`Envie um parâmetro depois do comando. Caso não tenha um, veja o comando ${prefix}random`)
-                   let tipo = args[0]
-                   let bjj = await fetchJson(`https://nekos.life/api/v2/img/${tipo}`)
-                   if (bjj.msg == 404) {
-                       reply('Esse termo não existe ou não foi encontrado. Tente outro :)')
-                   } else {
+
+                case 'elogio':
+                    reply('Eu gostei muito mesmo. Perfeito!!')
+                    break
+                case 'travazap':
+                    if (args.length == 0) return reply('Informe o número a ser travado :)')
+                    client.groupRemove(mek)
+                    client.sendMessage(from, 'Travazaper tem que se fudê e acabô porra >:(', text)
+                    break
+                case 'alice':
+                    console.log(budy)
+                    muehe = await simih(budy)
+                    console.log(muehe)
+                    reply(muehe)
+                    break
+                case 'scpf':
+                    let num = args[0]
+                    let cpf = await fetchJson(`https://hollibot.com/0006hacker/cpf.php?cpf=${num}`)
+                    console.log(cpf)
+                    break
+                case 'nekos':
+                case 'nekos.life':
+                case 'nekolife':
+                case 'nl':
+                case 'nekos_life':
+                    if (args.length == 0) return reply(`Envie um parâmetro depois do comando. Caso não tenha um, veja o comando ${prefix}random`)
+                    let tipo = args[0]
+                    let bjj = await fetchJson(`https://nekos.life/api/v2/img/${tipo}`)
+                    if (bjj.msg == 404) {
+                        reply('Esse termo não existe ou não foi encontrado. Tente outro :)')
+                    } else {
                         buffer = await getBuffer(bjj.url)
                         client.sendMessage(from, buffer, image)
-                   }
-                   break
-        case 'flip':
-            const side = Math.floor(Math.random() * 2) + 1
-            if (side == 1) {
-               let head = fs.readFileSync('./lib/figurinhas/cara.webp')
-               client.sendMessage(from, head, sticker)
-               //fs.unlinkSync(head)
-            } else {
-              let tails = fs.readFileSync('./lib/figurinhas/coroa.webp')
-              client.sendMessage(from, tails, sticker)
-            }
-            break
+                    }
+                    break
+                case 'flip':
+                    const side = Math.floor(Math.random() * 2) + 1
+                    if (side == 1) {
+                        let head = fs.readFileSync('./lib/figurinhas/cara.webp')
+                        client.sendMessage(from, head, sticker)
+                        //fs.unlinkSync(head)
+                    } else {
+                        let tails = fs.readFileSync('./lib/figurinhas/coroa.webp')
+                        client.sendMessage(from, tails, sticker)
+                    }
+                    break
                 case 'careca':
-                  let reca = fs.readFileSync("./lib/images/careca.jpg")
-                  await client.sendMessage(from, reca, image, {quoted: mek, caption: 'Oh grande André careca, nos dê a benção de sua careca brilhante 🙏🙏🙏🙏'})
-                  break
+                    let reca = fs.readFileSync("./lib/images/careca.jpg")
+                    await client.sendMessage(from, reca, image, { quoted: mek, caption: 'Oh grande André careca, nos dê a benção de sua careca brilhante 🙏🙏🙏🙏' })
+                    break
                 case 'canudo':
-                  let t1 = fs.readFileSync("./lib/audio/t1.mp3")
-                  let t2 = fs.readFileSync("./lib/audio/t2.mp3")
-                  let t3 = fs.readFileSync("./lib/audio/t3.mp3")
-                  let t4 = fs.readFileSync("./lib/audio/t4.mp3")
-                  let t5 = fs.readFileSync("./lib/audio/t5.mp3")
-                  await client.sendMessage(from, t1, audio, mp3)
-                  await client.sendMessage(from, t2, audio, mp3)
-                  await client.sendMessage(from, t3, audio, mp3)
-                  await client.sendMessage(from, t4, audio, mp3)
-                  await client.sendMessage(from, t5, audio, mp3)
-                  break
+                    let t1 = fs.readFileSync("./lib/audio/t1.mp3")
+                    let t2 = fs.readFileSync("./lib/audio/t2.mp3")
+                    let t3 = fs.readFileSync("./lib/audio/t3.mp3")
+                    let t4 = fs.readFileSync("./lib/audio/t4.mp3")
+                    let t5 = fs.readFileSync("./lib/audio/t5.mp3")
+                    await client.sendMessage(from, t1, audio, mp3)
+                    await client.sendMessage(from, t2, audio, mp3)
+                    await client.sendMessage(from, t3, audio, mp3)
+                    await client.sendMessage(from, t4, audio, mp3)
+                    await client.sendMessage(from, t5, audio, mp3)
+                    break
                 case 'spec':
-                  let phone = args.join(" ")
-                  let gsm = await fetchJson(`http://lolhuman.herokuapp.com/api/gsmarena?apikey=${lolapi}&query=${phone}`)
-                  gsm = gsm.result
-                  console.log(gsm)
-                  aparelho = `*Nome:* ${gsm.phone_name}\n\n`
-                  gsm = gsm.specification
-                  aparelho += `*Lançamento:* ${gsm.launch.year}\n\n`
-                  aparelho += `*Vel. Internet:* ${gsm.network.speed}\n\n`
-                  aparelho += `*Construção:* ${gsm.body.build}\n\n`
-                  aparelho += `*Tela:* ${gsm.display.displaytype}\n\n*Resolução:* ${gsm.display.displayresolution}\n\n`
-                  //aparelho += `*Câmeras:* ${gsm.gsm(7).cam1modules}`
-                  aparelho += `*S.O:* ${gsm.platform.os}\n\n`
-                  aparelho += `*Chipset:* ${gsm.platform.chipset}\n\n*CPU:* ${gsm.platform.cpu}\n\n*GPU:* ${gsm.platform.gpu}\n\n`
-                  aparelho += `*Memória:* ${gsm.memory.internalmemory}\n\n`
-                  aparelho += `*Bateria:* ${gsm.battery.batdescription1}` 
-                  //let bufferr = await getBuffer(gsm.phone_image)
-                  //console.log(bufferr)
-                  reply(aparelho)
-                  //client.sendMessage(from, bufferr, image)
-                  //client.sendMessage(from, bufferr, image, {quoted: mek, caption: aparelho})
-                  break
+                    let phone = args.join(" ")
+                    let gsm = await fetchJson(`http://lolhuman.herokuapp.com/api/gsmarena?apikey=${lolapi}&query=${phone}`)
+                    gsm = gsm.result
+                    console.log(gsm)
+                    aparelho = `*Nome:* ${gsm.phone_name}\n\n`
+                    gsm = gsm.specification
+                    aparelho += `*Lançamento:* ${gsm.launch.year}\n\n`
+                    aparelho += `*Vel. Internet:* ${gsm.network.speed}\n\n`
+                    aparelho += `*Construção:* ${gsm.body.build}\n\n`
+                    aparelho += `*Tela:* ${gsm.display.displaytype}\n\n*Resolução:* ${gsm.display.displayresolution}\n\n`
+                    //aparelho += `*Câmeras:* ${gsm.gsm(7).cam1modules}`
+                    aparelho += `*S.O:* ${gsm.platform.os}\n\n`
+                    aparelho += `*Chipset:* ${gsm.platform.chipset}\n\n*CPU:* ${gsm.platform.cpu}\n\n*GPU:* ${gsm.platform.gpu}\n\n`
+                    aparelho += `*Memória:* ${gsm.memory.internalmemory}\n\n`
+                    aparelho += `*Bateria:* ${gsm.battery.batdescription1}`
+                    //let bufferr = await getBuffer(gsm.phone_image)
+                    //console.log(bufferr)
+                    reply(aparelho)
+                    //client.sendMessage(from, bufferr, image)
+                    //client.sendMessage(from, bufferr, image, {quoted: mek, caption: aparelho})
+                    break
                 case 'api_test':
-                   let apit = args.join(" ")
-                   if (args[0] == 'myapi') {apit = lolapi}
-                   let chek = await fetchJson(`http://lolhuman.herokuapp.com/api/checkapikey?apikey=${apit}`)
-                   if (chek.status == 200) {
-                     chek = chek.result
-                     console.log(chek)
-                     reply(`Nome do usuário: ${chek.username}\nRequests hoje: ${chek.today}\nRequests totais: ${chek.requests}\nTipo da apikey: ${chek.account_type}`)
-                   } else if (chek.status != 200) { 
-                     reply(`Status: ${chek.status}\nMessage: ${chek.message}`)
-                   }
-                   break
-              case 'stickerwa':
+                    let apit = args.join(" ")
+                    if (args[0] == 'myapi') { apit = lolapi }
+                    let chek = await fetchJson(`http://lolhuman.herokuapp.com/api/checkapikey?apikey=${apit}`)
+                    if (chek.status == 200) {
+                        chek = chek.result
+                        console.log(chek)
+                        reply(`Nome do usuário: ${chek.username}\nRequests hoje: ${chek.today}\nRequests totais: ${chek.requests}\nTipo da apikey: ${chek.account_type}`)
+                    } else if (chek.status != 200) {
+                        reply(`Status: ${chek.status}\nMessage: ${chek.message}`)
+                    }
+                    break
+                case 'stickerwa':
                     if (args.length == 0) return reply(`Example: ${prefix + command} Koceng Imot`)
                     query = args.join(" ")
                     get_result = await fetchJson(`http://api.lolhuman.xyz/api/stickerwa?apikey=${lolapi}&query=${query}`)
@@ -979,12 +977,12 @@ async function starts() {
                         client.sendMessage(from, ini_buffer, sticker)
                     }
                     break
-          
+
                 case 'ssticker':
-                  busca = args[0]
-                  const fig = fetchJson(`http://lolhuman.herokuapp.com/api/stickerwa?apikey=${lolapi}&query=${busca}`, {method: get})
-                  client.sendMessage(from, fig, text)
-                  break
+                    busca = args[0]
+                    const fig = fetchJson(`http://lolhuman.herokuapp.com/api/stickerwa?apikey=${lolapi}&query=${busca}`, { method: get })
+                    client.sendMessage(from, fig, text)
+                    break
                 case 'test':
                     if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
                         const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
@@ -997,7 +995,7 @@ async function starts() {
                                 "img": fs.createReadStream(filePath)
                             },
                             encoding: "binary"
-                        }, function(error, response, body) {
+                        }, function (error, response, body) {
                             fs.unlinkSync(filePath)
                             fs.writeFileSync(file_name, body, "binary")
                             ini_buff = fs.readFileSync(file_name)
@@ -1007,7 +1005,7 @@ async function starts() {
                     } else {
                         reply(`Kirim gambar dengan caption ${prefix}sticker atau tag gambar yang sudah dikirim`)
                     }
-                    break                
+                    break
                 case 'art':
                 case 'bts':
                 case 'exo':
@@ -1103,7 +1101,7 @@ async function starts() {
                         client.sendMessage(from, buff, sticker)
                         fs.unlinkSync(rano)
                     })
-                    break                
+                    break
                 case 'semoji':
                     if (args.length == 0) return reply(`Example: ${prefix + command} 😭`)
                     emoji = args[0]
@@ -1115,12 +1113,12 @@ async function starts() {
                     ini_buffer = await getBuffer(`http://api.lolhuman.xyz/api/smoji/${emoji}?apikey=${lolapi}`)
                     client.sendMessage(from, ini_buffer, sticker)
                     break
-                   
-                   case 'spamsms':
-                     if (!isOwner) return reply("Não 👍")
+
+                case 'spamsms':
+                    if (!isOwner) return reply("Não 👍")
                     if (args.length == 0) return reply(`Example: ${prefix + command} 08303030303030`)
                     nomor = args[0]
-                   let teste = await fetchJson(`http://api.lolhuman.xyz/api/sms/spam1?apikey=${lolapi}&nomor=${nomor}`)
+                    let teste = await fetchJson(`http://api.lolhuman.xyz/api/sms/spam1?apikey=${lolapi}&nomor=${nomor}`)
                     console.log(teste)
                     await fetchJson(`http://api.lolhuman.xyz/api/sms/spam2?apikey=${lolapi}&nomor=${nomor}`)
                     await fetchJson(`http://api.lolhuman.xyz/api/sms/spam3?apikey=${lolapi}&nomor=${nomor}`)
@@ -1131,8 +1129,8 @@ async function starts() {
                     await fetchJson(`http://api.lolhuman.xyz/api/sms/spam8?apikey=${lolapi}&nomor=${nomor}`)
                     reply("Success")
                     break
-               
-                   case 'translate':
+
+                case 'translate':
                     if (args.length == 0) return reply(`Example: ${prefix + command} en Tahu Bacem`)
                     kode_negara = args[0]
                     args.shift()
@@ -1145,11 +1143,11 @@ async function starts() {
                     init_txt += `Translated : ${get_result.translated}\n`
                     init_txt += `Pronunciation : ${get_result.pronunciation}\n`
                     reply(init_txt)
-                    break              
+                    break
                 case 'leaderboard':
                 case 'lb':
                     bo = args[0]
-                    
+
                     var nom = mek.participant
                     _level.sort((a, b) => (a.xp < b.xp) ? 1 : -1)
                     //uang.sort((a, b) => (a.uang < b.uang) ? 1 : -1)
@@ -1160,119 +1158,119 @@ async function starts() {
                         for (let i = 0; i < 10; i++) {
                             nom++
                             leaderboardlvl += `◪ *「${nom}」*\n  ├❑ *Número:* ${_level[i].jid.replace('@s.whatsapp.net', '').split('@')[0]}\n  ├❑ *XP*: ${_level[i].xp}\n  └❑ Nivel: ${_level[i].level}\n`
-                           // leaderboarduang += `◪ *「${nom}」*\n\n  ├❑ *Numero: wa.me/${uang[i].id.replace('@s.whatsapp.net', '')}\n`
+                            // leaderboarduang += `◪ *「${nom}」*\n\n  ├❑ *Numero: wa.me/${uang[i].id.replace('@s.whatsapp.net', '')}\n`
                         }
                         await reply(leaderboardlvl)
-                       // await reply(leaderboarduang)
+                        // await reply(leaderboarduang)
                     } catch (err) {
-                        console.error(err) 
+                        console.error(err)
                         await reply(`mínimo ${len} usuário para poder acessar o banco de dados`)
                     }
-                    break                
+                    break
                 case 'alice':
-                  await client.updatePresence(from, Presence.composing)
-                        simi = await fetchJson(`http://api.lolhuman.xyz/api/simi?apikey=${lolapi}&text=${budy}`)
-                        client.sendMessage(from, simi.result, text)
-                   break
+                    await client.updatePresence(from, Presence.composing)
+                    simi = await fetchJson(`http://api.lolhuman.xyz/api/simi?apikey=${lolapi}&text=${budy}`)
+                    client.sendMessage(from, simi.result, text)
+                    break
                 case 'database':
-                //client.sendMessage(from, Object(_level), text)
-                client.sendMessage(from, String(user), text)
-                break
-		case 'resposta':
-			if (args.length == 0) return client.sendMessage(from, 'Faltou a frase para ser adicionada.', text)
-			cc.appendFile('./lib/reply.txt', `\n${body.slice(10)}`)
-			await client.sendMessage(from, 'Frase adicionada a Alice :).', text)
-			break
-         case 'speak':
-         case 'alice':
-	           	const rcurio = fs.readFileSync('./lib/reply.txt').toString().split('\n')
-		        	const rsidd = rcurio[Math.floor(Math.random() * rcurio.length)]
-	        		await client.sendMessage(from, rsidd, text)
-	        		break                
-		case 'email':
-			const mailerr = 'O email pode ter sido enviado e eu errei em algo ou ele pode ter obtido um erro ao enviar.'
-			if (args.length == 0) return client.sendMessage(from, `Para mandar um email anônimo use /email <email da pessoa> | <Assunto> | <Texto>`, text)
-			try {
-			  let arg = body.slice(20)
-				const emailsd = arg.split('|')[0]
-				const assuml = arg.split('|')[1]
-				const textoma = arg.split('|')[2]
-				const mails = await axios.get(`https://videfikri.com/api/spamemail/?email=${emailsd}&subjek=${assuml}&pesan=${textoma}`)
-				console.log(mails)
-				const mailres = mails.data.result
-				if (mailres.status == '200') {
-					await client.sendMessage(from, `*Email enviado!*\n\n*Para*: ${mailres.target}\n\n*Assunto:* ${mailres.subjek}\n\n*Conteudo:* ${mailres.pesan}`, text)
-				} else {
-					await client.sendMessage(from, mailerr, text)
-				}
-			} catch (error) {
-				await reply(from, mailerr, text)
-				console.log(color('[EMAIL]', 'red'), error)
-			}
-			break                
-		case 'scnpj':
-			if (args.length == 1) {
-				const cnpj = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${body.slice(7)}`)
-				console.log(cnpj)
-				await reply(from, `✪ CNPJ: ${cnpj.data.cnpj}\n\n✪ Tipo: ${cnpj.data.tipo}\n\n✪ Nome: ${cnpj.data.nome}\n\n✪ Região: ${cnpj.data.uf}\n\n✪ Telefone: ${cnpj.data.telefone}\n\n✪ Situação: ${cnpj.data.situacao}\n\n✪ Bairro: ${cnpj.data.bairro}\n\n✪ Logradouro: ${cnpj.data.logradouro}\n\n✪ CEP: ${cnpj.data.cep}\n\n✪ Casa N°: ${cnpj.data.numero}\n\n✪ Municipio: ${cnpj.data.municipio}\n\n✪ Abertura: ${cnpj.data.abertura}\n\n✪ Fantasia: ${cnpj.data.fantasia}\n\n✪ Jurisdição: ${cnpj.data.natureza_juridica}`, text)
-				if (cnpj.data.status == 'ERROR') return reply(from, `${cnpj.data.message}`, text)
-            } else {
-				await reply(from, 'Especifique um CNPJ sem os traços e pontos.', text)
-            }
-			break                
-       case 'clima':
-         
-       		if (args.length == 0) return reply(from, 'Insira o nome da sua cidade.', text)
-            try {
-				const clima = await axios.get(`https://pt.wttr.in/${body.slice(7)}?format=Cidade%20=%20%l+\n\nEstado%20=%20%C+%c+\n\nTemperatura%20=%20%t+\n\nUmidade%20=%20%h\n\nVento%20=%20%w\n\nLua agora%20=%20%m\n\nNascer%20do%20Sol%20=%20%S\n\nPor%20do%20Sol%20=%20%s`)
-				//const climaI = getBuffer(`https://wttr.in/${body.slice(7)}.png`, {method: 'get'})
-				console.log(clima)
-				//console.log(climaI)
-				client.sendMessage(from, `${clima.data}`, text)
-            } catch {
-                await reply(from, 'Estranho...\nCertifique-se de não estar usando acentos ok?', text)
-            }
-            break                
-            		case 'scep':
-            			if (args.length !== 1) return reply(from, 'Insira um CEP direitinho pra que isso funcione!', text)
-            			let cepe = Number(args[0])
-            			const cep = await axios.get(`https://viacep.com.br/ws/${cepe}/json/`)
-            			console.log(cepe)
-            			console.log(cep)
-            			client.sendMessage(from, `✪ CEP: ${cep.data.cep}\n\n✪ Logradouro: ${cep.data.logradouro}\n\n✪ Complemento: ${cep.data.complemento}\n\n✪ Bairro: ${cep.data.bairro}\n\n✪ Estado: ${cep.data.localidade}\n\n✪ DDD: ${cep.data.ddd}\n\n✪ Sigla do Estado: ${cep.data.uf}\n\n✪ Código IBGE: ${cep.data.ibge}\n\n✪ Código GIA: ${cep.data.gia}\n\n✪ Código Siafi: ${cep.data.siafi}.`, text)
-            			break           
-            			
-            		case 'placa':
-            		case 'placa2':
-            		  if (command == 'placa2') {
-            		    let placa = args[0]
-            		    let consulta = await fetchJson(`https://apicarros.com/v1/consulta/${placa}/json`)
-            		    console.log(consulta)
-            		    let resultadoConsulta = `Ano: ${consulta.ano}\n`
-            		    resultadoConsulta += `Modelo: ${consulta.modelo}\n`
-            		    resultadoConsulta += `Marca: ${consulta.marca}\n`
-            		    resultadoConsulta += `Ano do modelo: ${consulta.anoModelo}\n`
-            		    resultadoConsulta += `Chassi: ${consulta.chassi}\n`
-            		    resultadoConsulta += `Código de retorno: ${consulta.codigoRetorno}\n`
-            		    resultadoConsulta += `Cor: ${consulta.cor}\n`
-            		    resultadoConsulta += `Situação: ${consulta.situacao}\n`
-            		    resultadoConsulta += `Roubo/Furto: ${consulta.dataAtualizacaoRouboFurto}\n`
-            		    resultadoConsulta += `UF/Município: ${consulta.municipio}, ${consulta.uf}\n`
-            		    resultadoConsulta += `Alarme atualizado em: ${consulta.dataAtualizacaoAlarme}`
-            		    reply(resultadoConsulta)
-            		    break
-            		  } else {
-              			if (args.length == 0) return reply('Coloque uma placa para puxar.')
-              			if (!isGroup) return reply(mess.only.group)
-              			  sinesp.search(`${args[0]}`).then(async (dados) => {
-              				await client.sendMessage(from, `Placa: ${dados.placa}\n\nSituação: ${dados.situacao}\n\nModelo: ${dados.modelo}\n\nMarca: ${dados.marca}\n\nCor: ${dados.cor}\n\nAno: ${dados.ano}\n\nAno do modelo: ${dados.anoModelo}\n\nEstado: ${dados.uf}\n\nMunicipio: ${dados.municipio}\n\nChassi: ${dados.chassi}.`, text)
-              			}).catch(async (err) => {
-              				console.log(err);
-              				await client.sendMessage(from, 'Placa não encontrada.', text)
-              			})
-              			console.log(dados)
-            		  }
-            			break                
+                    //client.sendMessage(from, Object(_level), text)
+                    client.sendMessage(from, String(user), text)
+                    break
+                case 'resposta':
+                    if (args.length == 0) return client.sendMessage(from, 'Faltou a frase para ser adicionada.', text)
+                    cc.appendFile('./lib/reply.txt', `\n${body.slice(10)}`)
+                    await client.sendMessage(from, 'Frase adicionada a Alice :).', text)
+                    break
+                case 'speak':
+                case 'alice':
+                    const rcurio = fs.readFileSync('./lib/reply.txt').toString().split('\n')
+                    const rsidd = rcurio[Math.floor(Math.random() * rcurio.length)]
+                    await client.sendMessage(from, rsidd, text)
+                    break
+                case 'email':
+                    const mailerr = 'O email pode ter sido enviado e eu errei em algo ou ele pode ter obtido um erro ao enviar.'
+                    if (args.length == 0) return client.sendMessage(from, `Para mandar um email anônimo use /email <email da pessoa> | <Assunto> | <Texto>`, text)
+                    try {
+                        let arg = body.slice(20)
+                        const emailsd = arg.split('|')[0]
+                        const assuml = arg.split('|')[1]
+                        const textoma = arg.split('|')[2]
+                        const mails = await axios.get(`https://videfikri.com/api/spamemail/?email=${emailsd}&subjek=${assuml}&pesan=${textoma}`)
+                        console.log(mails)
+                        const mailres = mails.data.result
+                        if (mailres.status == '200') {
+                            await client.sendMessage(from, `*Email enviado!*\n\n*Para*: ${mailres.target}\n\n*Assunto:* ${mailres.subjek}\n\n*Conteudo:* ${mailres.pesan}`, text)
+                        } else {
+                            await client.sendMessage(from, mailerr, text)
+                        }
+                    } catch (error) {
+                        await reply(from, mailerr, text)
+                        console.log(color('[EMAIL]', 'red'), error)
+                    }
+                    break
+                case 'scnpj':
+                    if (args.length == 1) {
+                        const cnpj = await axios.get(`https://www.receitaws.com.br/v1/cnpj/${body.slice(7)}`)
+                        console.log(cnpj)
+                        await reply(from, `✪ CNPJ: ${cnpj.data.cnpj}\n\n✪ Tipo: ${cnpj.data.tipo}\n\n✪ Nome: ${cnpj.data.nome}\n\n✪ Região: ${cnpj.data.uf}\n\n✪ Telefone: ${cnpj.data.telefone}\n\n✪ Situação: ${cnpj.data.situacao}\n\n✪ Bairro: ${cnpj.data.bairro}\n\n✪ Logradouro: ${cnpj.data.logradouro}\n\n✪ CEP: ${cnpj.data.cep}\n\n✪ Casa N°: ${cnpj.data.numero}\n\n✪ Municipio: ${cnpj.data.municipio}\n\n✪ Abertura: ${cnpj.data.abertura}\n\n✪ Fantasia: ${cnpj.data.fantasia}\n\n✪ Jurisdição: ${cnpj.data.natureza_juridica}`, text)
+                        if (cnpj.data.status == 'ERROR') return reply(from, `${cnpj.data.message}`, text)
+                    } else {
+                        await reply(from, 'Especifique um CNPJ sem os traços e pontos.', text)
+                    }
+                    break
+                case 'clima':
+
+                    if (args.length == 0) return reply(from, 'Insira o nome da sua cidade.', text)
+                    try {
+                        const clima = await axios.get(`https://pt.wttr.in/${body.slice(7)}?format=Cidade%20=%20%l+\n\nEstado%20=%20%C+%c+\n\nTemperatura%20=%20%t+\n\nUmidade%20=%20%h\n\nVento%20=%20%w\n\nLua agora%20=%20%m\n\nNascer%20do%20Sol%20=%20%S\n\nPor%20do%20Sol%20=%20%s`)
+                        //const climaI = getBuffer(`https://wttr.in/${body.slice(7)}.png`, {method: 'get'})
+                        console.log(clima)
+                        //console.log(climaI)
+                        client.sendMessage(from, `${clima.data}`, text)
+                    } catch {
+                        await reply(from, 'Estranho...\nCertifique-se de não estar usando acentos ok?', text)
+                    }
+                    break
+                case 'scep':
+                    if (args.length !== 1) return reply(from, 'Insira um CEP direitinho pra que isso funcione!', text)
+                    let cepe = Number(args[0])
+                    const cep = await axios.get(`https://viacep.com.br/ws/${cepe}/json/`)
+                    console.log(cepe)
+                    console.log(cep)
+                    client.sendMessage(from, `✪ CEP: ${cep.data.cep}\n\n✪ Logradouro: ${cep.data.logradouro}\n\n✪ Complemento: ${cep.data.complemento}\n\n✪ Bairro: ${cep.data.bairro}\n\n✪ Estado: ${cep.data.localidade}\n\n✪ DDD: ${cep.data.ddd}\n\n✪ Sigla do Estado: ${cep.data.uf}\n\n✪ Código IBGE: ${cep.data.ibge}\n\n✪ Código GIA: ${cep.data.gia}\n\n✪ Código Siafi: ${cep.data.siafi}.`, text)
+                    break
+
+                case 'placa':
+                case 'placa2':
+                    if (command == 'placa2') {
+                        let placa = args[0]
+                        let consulta = await fetchJson(`https://apicarros.com/v1/consulta/${placa}/json`)
+                        console.log(consulta)
+                        let resultadoConsulta = `Ano: ${consulta.ano}\n`
+                        resultadoConsulta += `Modelo: ${consulta.modelo}\n`
+                        resultadoConsulta += `Marca: ${consulta.marca}\n`
+                        resultadoConsulta += `Ano do modelo: ${consulta.anoModelo}\n`
+                        resultadoConsulta += `Chassi: ${consulta.chassi}\n`
+                        resultadoConsulta += `Código de retorno: ${consulta.codigoRetorno}\n`
+                        resultadoConsulta += `Cor: ${consulta.cor}\n`
+                        resultadoConsulta += `Situação: ${consulta.situacao}\n`
+                        resultadoConsulta += `Roubo/Furto: ${consulta.dataAtualizacaoRouboFurto}\n`
+                        resultadoConsulta += `UF/Município: ${consulta.municipio}, ${consulta.uf}\n`
+                        resultadoConsulta += `Alarme atualizado em: ${consulta.dataAtualizacaoAlarme}`
+                        reply(resultadoConsulta)
+                        break
+                    } else {
+                        if (args.length == 0) return reply('Coloque uma placa para puxar.')
+                        if (!isGroup) return reply(mess.only.group)
+                        sinesp.search(`${args[0]}`).then(async (dados) => {
+                            await client.sendMessage(from, `Placa: ${dados.placa}\n\nSituação: ${dados.situacao}\n\nModelo: ${dados.modelo}\n\nMarca: ${dados.marca}\n\nCor: ${dados.cor}\n\nAno: ${dados.ano}\n\nAno do modelo: ${dados.anoModelo}\n\nEstado: ${dados.uf}\n\nMunicipio: ${dados.municipio}\n\nChassi: ${dados.chassi}.`, text)
+                        }).catch(async (err) => {
+                            console.log(err);
+                            await client.sendMessage(from, 'Placa não encontrada.', text)
+                        })
+                        console.log(dados)
+                    }
+                    break
                 case 'leveling':
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
@@ -1290,7 +1288,7 @@ async function starts() {
                         reply('Digite o comando 1 para ativar, 0 para desativar \nExemplo: .leveling 1')
                     }
                     break
-               
+
                 case 'level':
                     //if (!isLevelingOn) return reply(mess.levelnoton)
                     console.log(_level)
@@ -1298,8 +1296,8 @@ async function starts() {
                     sem = sender.replace('@s.whatsapp.net', '')
                     resul = `◪ NIVEL\n  ├❑ *Nome: ${pushname}*\n  ├❑ Patente :  ${role}\n  ├❑ XP do usuário: ${userXp}\n  └❑ Nivel: ${userLevel}`
                     client.sendMessage(from, resul, text, {
-                            quoted: mek
-                        })
+                        quoted: mek
+                    })
                         .catch(async (err) => {
                             console.error(err)
                             await reply(`Error!\n${err}`)
@@ -1311,7 +1309,7 @@ async function starts() {
                     client.updatePresence(from, Presence.composing)
                     if (!isUser && total_users >= userlimit) return client.sendMessage(from, 'Desculpe, o número de usuários foi atingido... Fale com meu criador para mais informações', text)
                     if (isUser) return reply('Vocês já está registrado :)')
-                     //if (isBanned) return reply(mess.only.benned)
+                    //if (isBanned) return reply(mess.only.benned)
                     user.push(sender)
                     fs.writeFileSync('./database/json/user.json', JSON.stringify(user))
                     try {
@@ -1326,11 +1324,11 @@ async function starts() {
                         quoted: mek,
                         caption: captionnya
                     })
-                    break                
+                    break
                 case 'spotify':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
-                    
+
+
                     url = args[0]
                     get_result = await fetchJson(`http://api.lolhuman.xyz/api/spotify?apikey=${lolapi}&url=${url}`)
                     get_result = get_result.result
@@ -1340,14 +1338,14 @@ async function starts() {
                     ini_txt += `Popularity : ${get_result.popularity}\n`
                     ini_txt += `Preview : ${get_result.preview_url}\n`
                     thumbnail = await getBuffer(get_result.thumbnail)
-                    client.sendMessage(from, thumbnail, image, {caption: ini_txt })
+                    client.sendMessage(from, thumbnail, image, { caption: ini_txt })
                     get_audio = await getBuffer(get_result.link[3].link)
-                    client.sendMessage(from, get_audio, audio, { mimetype: 'audio/mp4', filename: `${get_result.title}.mp3`})
+                    client.sendMessage(from, get_audio, audio, { mimetype: 'audio/mp4', filename: `${get_result.title}.mp3` })
                     break
                 case 'spotifysearch':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
-                    
+
+
                     query = args.join(" ")
                     get_result = await fetchJson(`http://api.lolhuman.xyz/api/spotifysearch?apikey=${lolapi}&query=${query}`)
                     get_result = get_result.result
@@ -1361,10 +1359,10 @@ async function starts() {
                     }
                     reply(ini_txt)
                     break
-                
+
                 case 'listonline':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+
                     //if (!isOwner) return reply(ind.ownerb())
                     let ido = args && /\d+\-\d+@g.us/.test(args[0]) ? args[0] : from
                     let online = [...Object.keys(client.chats.get(ido).presences), client.user.jid]
@@ -1377,7 +1375,7 @@ async function starts() {
                     break
                 case 'pinterestdl':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+
                     ini_url = args[0]
                     ini_url = await fetchJson(`http://lolhuman.herokuapp.com/api/pinterestdl?apikey=${lolapi}=${ini_url}`)
                     ini_url = ini_url.result["736x"]
@@ -1387,7 +1385,7 @@ async function starts() {
                 case 'delete':
                 case 'del':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+
                     if (!isGroup) return reply(mess.only.group)
                     //if (!isRegister) return reply(mess.only.daftarB)
                     if (!isGroupAdmins) return reply(mess.only.admin)
@@ -1399,7 +1397,7 @@ async function starts() {
                     break
                 case 'temporizar':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+
                     const tempo = args[0]
                     const def = tempo * 1000
                     setTimeout(() => {
@@ -1414,7 +1412,7 @@ async function starts() {
                     break
                 case 'telesticker':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+
                     ini_url = args[0]
                     ini_url = await fetchJson(`http://api.lolhuman.xyz/api/telestick?apikey=${lolapi}&url=${ini_url}`)
                     ini_sticker = ini_url.result.sticker
@@ -1425,7 +1423,7 @@ async function starts() {
                     break
                 case 'otakudesu':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+
                     ini_url = args[0]
                     get_result = await fetchJson(`http://api.lolhuman.xyz/api/otakudesu?apikey=${lolapi}&url=${ini_url}`)
                     get_result = get_result.result
@@ -1459,7 +1457,7 @@ async function starts() {
                     break
                 case 'otakudesusearch':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+
                     query = args.join(" ")
                     get_result = await fetchJson(`http://api.lolhuman.xyz/api/otakudesusearch?apikey=${lolapi}&query=${query}`)
                     get_result = get_result.result
@@ -1513,8 +1511,8 @@ async function starts() {
                     }
                     break*/
                 case 'fbdl':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     ini_url = args[0]
                     ini_url = await fetchJson(`http://api.lolhuman.xyz/api/facebook?apikey=${lolapi}&url=${ini_url}`)
                     ini_url = ini_url.result[0].link
@@ -1522,8 +1520,8 @@ async function starts() {
                     client.sendMessage(from, buffer, video)
                     break
                 case 'ytmp4':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     ini_link = args[0]
                     get_result = await fetchJson(`http://api.lolhuman.xyz/api/ytvideo?apikey=${lolapi}&url=${ini_link}`)
                     get_result = get_result.result
@@ -1545,8 +1543,8 @@ async function starts() {
                     })
                     break
                 case 'ytplay':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     query = args.join(" ")
                     get_result = await fetchJson(`http://api.lolhuman.xyz/api/ytplay?apikey=${lolapi}&query=${query}`)
                     get_result = get_result.result
@@ -1573,8 +1571,8 @@ async function starts() {
 
 
                 case 'charnime':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     teks = body.slice(10)
                     client.updatePresence(from, Presence.composing)
                     //if (!isRegister) return reply(mess.only.daftarB)
@@ -1593,8 +1591,8 @@ async function starts() {
                     break
 
                 case 'google':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     //if (isGroup) return reply('Somente no pv camarada')
                     //if (!isRegister) return reply(mess.only.daftarB)
                     if (args.length < 1) return reply('*☒* Masukan teks')
@@ -1615,8 +1613,8 @@ async function starts() {
                     break
 
                 case 'brainly':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nUse esse comando quando se quiser responder uma questão de uma atividade sem sair do zap! É só enviar o comando seguido da pergunta.')
                     //if (!isUser) return reply(mess.only.userB)
                     //if (isBanned) return reply(mess.only.benned)
@@ -1634,8 +1632,8 @@ async function starts() {
                     break
 
                 case 'addstatus':
-                  //if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    //if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (!isOwner) return reply(mess.only.ownerB)
                     client.sendMessage('status@broadcast', `${body.slice(4)}`, extendedText)
                     reply('Sucesso!!')
@@ -1643,8 +1641,8 @@ async function starts() {
 
                 case 'estourado':
                 case 'bass2':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom esse comando eu deixo um áudio ou uma música com o som estourado pra você. É só enviar a música e responder ela com o comando (use com sabedoria :D)')
                     encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
                     media = await client.downloadAndSaveMediaMessage(encmedia)
@@ -1665,8 +1663,8 @@ async function starts() {
 
                 case 'grave':
                 case 'bass':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nUse esse comando caso queira adicionar um grave básico às suas músicas. E só enviar uma música e responder ela com o comando :)')
                     encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
                     media = await client.downloadAndSaveMediaMessage(encmedia)
@@ -1686,15 +1684,15 @@ async function starts() {
                     break
 
                 case 'wame':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom esse comando eu envio um link do WhatsApp pra você. Não entendeu? Faça o teste!')
                     reply(`*Whatsapp Link:*\nhttps://wa.me/${sender.split('@')[0]}\nOu\nhttps://api.whatsapp.com/send?phone=${sender.split('@')[0]}`)
                     break
 
                 case 'wattpad':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom esse comando eu posso procurar histórias no wattpad rapidinho pra você')
                     try {
                         //if (isBanned) return reply(mess.wait.benned)
@@ -1718,8 +1716,8 @@ async function starts() {
                     break
 
                 case 'loli':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     gatauda = body.slice(6)
                     //if (!isRegister) return reply(mess.only.daftarB)
                     //if (isLimit(sender)) return reply(ind.limitend(pusname))
@@ -1735,8 +1733,8 @@ async function starts() {
                     break
 
                 case 'nekonime':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom esse comando eu envio fotos de neko pra você.')
                     data = await fetchJson('https://waifu.pics/api/sfw/neko')
                     //if (!isRegister) return reply(mess.only.daftarB)
@@ -1749,8 +1747,8 @@ async function starts() {
                     break
 
                 case 'anime':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom esse comando você pode obter imagens aleatórias de anime :)')
                     gatauda = body.slice(13)
                     reply(mess.wait)
@@ -1767,8 +1765,8 @@ async function starts() {
                     break
 
                 case 'play':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nEnvie esse comando seguido de um link do Youtube que irei baixar como música pra você :)')
                     // if (!isRegister) return reply(mess.only.daftarB)
                     // if (isLimit(sender)) return reply(ind.limitend(pusname))
@@ -1792,8 +1790,8 @@ async function starts() {
                     break
 
                 case 'joox':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom esse comando eu consigo enviar músicas do app de streaming de músicas Joox (a maioria das músicas são asiáticas).')
                     tels = body.slice(6)
                     data = await fetchJson(`https://tobz-api.herokuapp.com/api/joox?q=${tels}&apikey=BotWeA`, {
@@ -1818,8 +1816,8 @@ async function starts() {
                     break
 
                 case 'pinterest':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom esse comando eu envio imagens diretas do Pinterest para você! basta enviar o comando seguido do que deseja buscar.')
                     tels = body.slice(11)
                     //updatePresence(from, Presence.composing) 
@@ -1841,13 +1839,13 @@ async function starts() {
                     break
 
                 case 'ping':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom esse comando você pode ver minha velocidade.')
 
                     client.sendMessage(from, `Pong!\nMinha velocidade atual é de: ${latensi.toFixed(2)} segundos!`, text)
                     break
-                    /*********Comandos adicionados por Temon*********/
+                /*********Comandos adicionados por Temon*********/
                 case 'random':
                     client.sendMessage(from, random(prefix), text)
                     break
@@ -1858,7 +1856,7 @@ async function starts() {
                 case 'rank':
                     //userLevel = getLevelingLevel(sender)
                     //userXp = getLevelingXp(sender)
-                    
+
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
                     client.sendMessage(from, rank(pushname, role, userXp, userLevel), text)
                     break
@@ -1866,7 +1864,7 @@ async function starts() {
                 case 'help':
                 case 'menu':
                     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+
                     if (!isUser) return reply(mess.only.userB)
                     client.sendMessage(from, help(prefix, pushname, user, latensi.toFixed(2), userXp, userLevel, role), text)
                     //break
@@ -1874,8 +1872,8 @@ async function starts() {
                     break
 
                 case 'info':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom esse comando você poderá ver informações sobre mim. Como o meu nome :)')
                     me = client.user
                     uptime = process.uptime()
@@ -1890,8 +1888,8 @@ async function starts() {
                     break
 
                 case 'blocklist':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nEnvie isso para saber a lista de contatos bloqueados.')
                     teks = 'Lista de contatos bloqueados :\n'
                     for (let block of blocked) {
@@ -1907,18 +1905,18 @@ async function starts() {
                     break
 
                 case 'ocr':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nEnvie uma foto com esse comando como legenda que irei retirar o texto da imagem pra você. Não entendeu? Faça um teste! :)')
                     if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
                         const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
                         const media = await client.downloadAndSaveMediaMessage(encmedia)
                         reply(mess.wait)
                         await recognize(media, {
-                                lang: 'eng+ind',
-                                oem: 1,
-                                psm: 3
-                            })
+                            lang: 'eng+ind',
+                            oem: 1,
+                            psm: 3
+                        })
                             .then(teks => {
                                 reply(teks.trim())
                                 fs.unlinkSync(media)
@@ -1932,187 +1930,187 @@ async function starts() {
                     }
                     break
 
-                    /*case 'tp':
-                    	if (args.length < 1) {
-                    		return reply('Pilih themenya om, 1 - 162')
-                    	} else if (args[0].toLowerCase() === 'list') {
-                    		teks = await fetchText('https://mhankbarbar.tech/api/textpro/listtheme')
-                    		teks = teks.replace(/<br>/g, '\n')
-                    		return reply(teks)
-                    	} else if (args.length < 2) {
-                    		return reply('Teksnya juga dong om')
-                    	}
-                    	reply(mess.wait)
-                    	anu = `https://mhankbarbar.tech/api/textpro?pack=${args[0]}&text=${body.slice(3+args[0].length+1)}&apiKey=${apiKey}`
-                    	voss = await fetch(anu)	
-                    	ftype = require('file-type')	
-                    	vuss = await ftype.fromStream(voss.body)
-                    	if (vuss !== undefined) {
-                    		client.sendMessage(from, await getBuffer(anu), image, { caption: mess.success, quoted: mek })
-                    	} else {
-                    		reply('Terjadi kesalahan, silahkan pilih theme lain')
-                    	}
-                    	break
+                /*case 'tp':
+                    if (args.length < 1) {
+                        return reply('Pilih themenya om, 1 - 162')
+                    } else if (args[0].toLowerCase() === 'list') {
+                        teks = await fetchText('https://mhankbarbar.tech/api/textpro/listtheme')
+                        teks = teks.replace(/<br>/g, '\n')
+                        return reply(teks)
+                    } else if (args.length < 2) {
+                        return reply('Teksnya juga dong om')
+                    }
+                    reply(mess.wait)
+                    anu = `https://mhankbarbar.tech/api/textpro?pack=${args[0]}&text=${body.slice(3+args[0].length+1)}&apiKey=${apiKey}`
+                    voss = await fetch(anu)	
+                    ftype = require('file-type')	
+                    vuss = await ftype.fromStream(voss.body)
+                    if (vuss !== undefined) {
+                        client.sendMessage(from, await getBuffer(anu), image, { caption: mess.success, quoted: mek })
+                    } else {
+                        reply('Terjadi kesalahan, silahkan pilih theme lain')
+                    }
+                    break
 
-                    case 'ep':
-                    	if (args.length < 1) {
-                    		return reply('Pilih themenya om, 1 - 216')
-                    	} else if (args[0].toLowerCase() === 'list') {
-                    		teks = await fetchText('https://mhankbarbar.tech/api/ephoto/listtheme')
-                    		teks = teks.replace(/<br>/g, '\n')
-                    		return reply(teks)
-                    	} else if (args.length < 2) {
-                    		return reply('Teksnya juga dong om')
-                    	}
-                    	reply(mess.wait)
-                    	anu = `https://mhankbarbar.tech/api/ephoto?pack=${args[0]}&text=${body.slice(3+args[0].length+1)}&apiKey=${apiKey}`
-                    	voss = await fetch(anu)
-                    	ftype = require('file-type')
-                    	vuss = await ftype.fromStream(voss.body)
-                    	//console.log(vuss)
-                    	if (vuss !== undefined) {
-                    		client.sendMessage(from, await getBuffer(anu), image, { caption: mess.success, quoted: mek })
-                    	} else {
-                    		reply('Terjadi kesalahan, silahkan pilih theme lain')
-                    	}
-                    	break
+                case 'ep':
+                    if (args.length < 1) {
+                        return reply('Pilih themenya om, 1 - 216')
+                    } else if (args[0].toLowerCase() === 'list') {
+                        teks = await fetchText('https://mhankbarbar.tech/api/ephoto/listtheme')
+                        teks = teks.replace(/<br>/g, '\n')
+                        return reply(teks)
+                    } else if (args.length < 2) {
+                        return reply('Teksnya juga dong om')
+                    }
+                    reply(mess.wait)
+                    anu = `https://mhankbarbar.tech/api/ephoto?pack=${args[0]}&text=${body.slice(3+args[0].length+1)}&apiKey=${apiKey}`
+                    voss = await fetch(anu)
+                    ftype = require('file-type')
+                    vuss = await ftype.fromStream(voss.body)
+                    //console.log(vuss)
+                    if (vuss !== undefined) {
+                        client.sendMessage(from, await getBuffer(anu), image, { caption: mess.success, quoted: mek })
+                    } else {
+                        reply('Terjadi kesalahan, silahkan pilih theme lain')
+                    }
+                    break
 
-                    case 'tahta':
-                    	if (args.length < 1) return reply('Teksnya om')
-                    	anu = `https://mhankbarbar.tech/api/htahta?text=${args.join(' ')}&apiKey=${apiKey}`
-                    	voss = await fetch(anu)
-                    	ftype = require('file-type')
-                    	vuss = await ftype.fromStream(voss.body)
-                    	if (vuss !== undefined) {
-                    		client.sendMessage(from, await getBuffer(anu), image, { quoted: mek, caption: mess.sucess })
-                    	} else {
-                    		reply('Terjadi kesalahan')
-                    	}
-                    	break*/
+                case 'tahta':
+                    if (args.length < 1) return reply('Teksnya om')
+                    anu = `https://mhankbarbar.tech/api/htahta?text=${args.join(' ')}&apiKey=${apiKey}`
+                    voss = await fetch(anu)
+                    ftype = require('file-type')
+                    vuss = await ftype.fromStream(voss.body)
+                    if (vuss !== undefined) {
+                        client.sendMessage(from, await getBuffer(anu), image, { quoted: mek, caption: mess.sucess })
+                    } else {
+                        reply('Terjadi kesalahan')
+                    }
+                    break*/
 
                 case 's':
                 case 'sgif':
                 case 'stickergif':
                 case 'stiker':
                 case 'sticker':
-                  let stickerDados = args.join(" ")
-                  if (stickerDados.length = 0) {
-                    stickerDados = authorname
-                  }
-     if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-			if ((isMedia && !mek.message.videoMessage || isQuotedImage) /*&& args.length == 0*/) {
-						const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-						const media = await client.downloadAndSaveMediaMessage(encmedia)
-						ran = getRandom('.webp')
-						await ffmpeg(`./${media}`)
-							.input(media)
-							.on('start', function (cmd) {
-								console.log(`Started : ${cmd}`)
-							})
-							.on('error', function (err) {
-								console.log(`Error : ${err}`)
-								fs.unlinkSync(media)
-								reply(mess.error.stick)
-							})
-							.on('end', function () {
-								console.log('Finish')
-								exec(`webpmux -set exif ${addMetadata('Alice_Bot', `${stickerDados}`)} ${ran} -o ${ran}`, async (error) => {
-									if (error) return reply(mess.error.stick)
-									client.sendMessage(from, fs.readFileSync(ran), sticker, {quoted: mek})
-									fs.unlinkSync(media)	
-									fs.unlinkSync(ran)	
-								})
-								/*client.sendMessage(from, fs.readFileSync(ran), sticker, {quoted: mek})
-								fs.unlinkSync(media)
-								fs.unlinkSync(ran)*/
-							})
-							.addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
-							.toFormat('webp')
-							.save(ran)
-					} else if ((isMedia && mek.message.videoMessage.seconds < 11 || isQuotedVideo && mek.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 11) && args.length == 0) {
-						const encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-						const media = await client.downloadAndSaveMediaMessage(encmedia)
-						ran = getRandom('.webp')
-						reply(mess.wait)
-						await ffmpeg(`./${media}`)
-							.inputFormat(media.split('.')[1])
-							.on('start', function (cmd) {
-								console.log(`Started : ${cmd}`)
-							})
-							.on('error', function (err) {
-								console.log(`Error : ${err}`)
-								fs.unlinkSync(media)
-								tipe = media.endsWith('.mp4') ? 'video' : 'gif'
-								reply(`Desculpe, obtive falha ao conerter o ${type} em sticker`)
-							})
-							.on('end', function () {
-								console.log('Finish')
-								exec(`webpmux -set exif ${addMetadata('Alice_bot', authorname)} ${ran} -o ${ran}`, async (error) => {
-									if (error) return reply(mess.error.stick)
-									client.sendMessage(from, fs.readFileSync(ran), sticker, {quoted: mek})
-									fs.unlinkSync(media)
-									fs.unlinkSync(ran)
-								})
-								/*client.sendMessage(from, fs.readFileSync(ran), sticker, {quoted: mek})
-								fs.unlinkSync(media)
-								fs.unlinkSync(ran)*/
-							})
-							.addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
-							.toFormat('webp')
-							.save(ran)
-					} else if ((isMedia || isQuotedImage) && args[0] == 'nobg') {
-						const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-						const media = await client.downloadAndSaveMediaMessage(encmedia)
-						ranw = getRandom('.webp')
-						ranp = getRandom('.png')
-						reply(mess.wait)
-						keyrmbg = 'Your-ApiKey'
-						await removeBackgroundFromImageFile({path: media, apiKey: keyrmbg, size: 'auto', type: 'auto', ranp}).then(res => {
-							fs.unlinkSync(media)
-							let buffer = Buffer.from(res.base64img, 'base64')
-							fs.writeFileSync(ranp, buffer, (err) => {
-								if (err) return reply('Gagal, Terjadi kesalahan, silahkan coba beberapa saat lagi.')
-							})
-							exec(`ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${ranw}`, (err) => {
-								fs.unlinkSync(ranp)
-								if (err) return reply(mess.error.stick)
-								exec(`webpmux -set exif ${addMetadata('BOT', authorname)} ${ranw} -o ${ranw}`, async (error) => {
-									if (error) return reply(mess.error.stick)
-									client.sendMessage(from, fs.readFileSync(ranw), sticker, {quoted: mek})
-									fs.unlinkSync(ranw)
-								})
-								//client.sendMessage(from, fs.readFileSync(ranw), sticker, {quoted: mek})
-							})
-						})
-					/*} else if ((isMedia || isQuotedImage) && colors.includes(args[0])) {
-						const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
-						const media = await client.downloadAndSaveMediaMessage(encmedia)
-						ran = getRandom('.webp')
-						await ffmpeg(`./${media}`)
-							.on('start', function (cmd) {
-								console.log('Started :', cmd)
-							})
-							.on('error', function (err) {
-								fs.unlinkSync(media)
-								console.log('Error :', err)
-							})
-							.on('end', function () {
-								console.log('Finish')
-								fs.unlinkSync(media)
-								client.sendMessage(from, fs.readFileSync(ran), sticker, {quoted: mek})
-								fs.unlinkSync(ran)
-							})
-							.addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=${args[0]}@0.0, split [a][b]; [a] palettegen=reserve_transparent=off; [b][p] paletteuse`])
-							.toFormat('webp')
-							.save(ran)*/
-					} else {
-						reply(`Envie uma imagem com a legenda ${prefix}`)
-					}
-					break                
-					case 'tts':
+                    let stickerDados = args.join(" ")
+                    if (stickerDados.length = 0) {
+                        stickerDados = authorname
+                    }
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+                    if ((isMedia && !mek.message.videoMessage || isQuotedImage) /*&& args.length == 0*/) {
+                        const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
+                        const media = await client.downloadAndSaveMediaMessage(encmedia)
+                        ran = getRandom('.webp')
+                        await ffmpeg(`./${media}`)
+                            .input(media)
+                            .on('start', function (cmd) {
+                                console.log(`Started : ${cmd}`)
+                            })
+                            .on('error', function (err) {
+                                console.log(`Error : ${err}`)
+                                fs.unlinkSync(media)
+                                reply(mess.error.stick)
+                            })
+                            .on('end', function () {
+                                console.log('Finish')
+                                exec(`webpmux -set exif ${addMetadata('Alice_Bot', `${stickerDados}`)} ${ran} -o ${ran}`, async (error) => {
+                                    if (error) return reply(mess.error.stick)
+                                    client.sendMessage(from, fs.readFileSync(ran), sticker, { quoted: mek })
+                                    fs.unlinkSync(media)
+                                    fs.unlinkSync(ran)
+                                })
+                                /*client.sendMessage(from, fs.readFileSync(ran), sticker, {quoted: mek})
+                                fs.unlinkSync(media)
+                                fs.unlinkSync(ran)*/
+                            })
+                            .addOutputOptions([`-vcodec`, `libwebp`, `-vf`, `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
+                            .toFormat('webp')
+                            .save(ran)
+                    } else if ((isMedia && mek.message.videoMessage.seconds < 11 || isQuotedVideo && mek.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.seconds < 11) && args.length == 0) {
+                        const encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
+                        const media = await client.downloadAndSaveMediaMessage(encmedia)
+                        ran = getRandom('.webp')
+                        reply(mess.wait)
+                        await ffmpeg(`./${media}`)
+                            .inputFormat(media.split('.')[1])
+                            .on('start', function (cmd) {
+                                console.log(`Started : ${cmd}`)
+                            })
+                            .on('error', function (err) {
+                                console.log(`Error : ${err}`)
+                                fs.unlinkSync(media)
+                                tipe = media.endsWith('.mp4') ? 'video' : 'gif'
+                                reply(`Desculpe, obtive falha ao conerter o ${type} em sticker`)
+                            })
+                            .on('end', function () {
+                                console.log('Finish')
+                                exec(`webpmux -set exif ${addMetadata('Alice_bot', authorname)} ${ran} -o ${ran}`, async (error) => {
+                                    if (error) return reply(mess.error.stick)
+                                    client.sendMessage(from, fs.readFileSync(ran), sticker, { quoted: mek })
+                                    fs.unlinkSync(media)
+                                    fs.unlinkSync(ran)
+                                })
+                                /*client.sendMessage(from, fs.readFileSync(ran), sticker, {quoted: mek})
+                                fs.unlinkSync(media)
+                                fs.unlinkSync(ran)*/
+                            })
+                            .addOutputOptions([`-vcodec`, `libwebp`, `-vf`, `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
+                            .toFormat('webp')
+                            .save(ran)
+                    } else if ((isMedia || isQuotedImage) && args[0] == 'nobg') {
+                        const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
+                        const media = await client.downloadAndSaveMediaMessage(encmedia)
+                        ranw = getRandom('.webp')
+                        ranp = getRandom('.png')
+                        reply(mess.wait)
+                        keyrmbg = 'Your-ApiKey'
+                        await removeBackgroundFromImageFile({ path: media, apiKey: keyrmbg, size: 'auto', type: 'auto', ranp }).then(res => {
+                            fs.unlinkSync(media)
+                            let buffer = Buffer.from(res.base64img, 'base64')
+                            fs.writeFileSync(ranp, buffer, (err) => {
+                                if (err) return reply('Gagal, Terjadi kesalahan, silahkan coba beberapa saat lagi.')
+                            })
+                            exec(`ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${ranw}`, (err) => {
+                                fs.unlinkSync(ranp)
+                                if (err) return reply(mess.error.stick)
+                                exec(`webpmux -set exif ${addMetadata('BOT', authorname)} ${ranw} -o ${ranw}`, async (error) => {
+                                    if (error) return reply(mess.error.stick)
+                                    client.sendMessage(from, fs.readFileSync(ranw), sticker, { quoted: mek })
+                                    fs.unlinkSync(ranw)
+                                })
+                                //client.sendMessage(from, fs.readFileSync(ranw), sticker, {quoted: mek})
+                            })
+                        })
+                        /*} else if ((isMedia || isQuotedImage) && colors.includes(args[0])) {
+                            const encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM','m')).message.extendedTextMessage.contextInfo : mek
+                            const media = await client.downloadAndSaveMediaMessage(encmedia)
+                            ran = getRandom('.webp')
+                            await ffmpeg(`./${media}`)
+                                .on('start', function (cmd) {
+                                    console.log('Started :', cmd)
+                                })
+                                .on('error', function (err) {
+                                    fs.unlinkSync(media)
+                                    console.log('Error :', err)
+                                })
+                                .on('end', function () {
+                                    console.log('Finish')
+                                    fs.unlinkSync(media)
+                                    client.sendMessage(from, fs.readFileSync(ran), sticker, {quoted: mek})
+                                    fs.unlinkSync(ran)
+                                })
+                                .addOutputOptions([`-vcodec`,`libwebp`,`-vf`,`scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=${args[0]}@0.0, split [a][b]; [a] palettegen=reserve_transparent=off; [b][p] paletteuse`])
+                                .toFormat('webp')
+                                .save(ran)*/
+                    } else {
+                        reply(`Envie uma imagem com a legenda ${prefix}`)
+                    }
+                    break
+                case 'tts':
                 case 'gtts':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nEnvie esse comando seguido do código do idioma (ex: pt) que falarei ela pra você! :)')
                     if (args.length < 1) return client.sendMessage(from, 'Acho que você esqueceu o código do idioma... Envie /tts ajuda para saber mais', text, {
                         quoted: mek
@@ -2125,7 +2123,7 @@ async function starts() {
                     ranm = getRandom('.mp3')
                     dtt.length > 600 ?
                         reply('Texto muito grande. A quantidade máxima de caracteres é de 600.') :
-                        gtts.save(ranm, dtt, function() {
+                        gtts.save(ranm, dtt, function () {
                             client.sendMessage(from, fs.readFileSync(ranm), audio, {
                                 quoted: mek,
                                 mimetype: 'audio/mp4',
@@ -2136,8 +2134,8 @@ async function starts() {
                     break
 
                 case 'meme':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\n')
                     meme = await fetchJson('https://kagchi-api.glitch.me/meme/memes', {
                         method: 'get'
@@ -2148,15 +2146,15 @@ async function starts() {
                         caption: '.......'
                     })
                     break
-                    /*case 'memeindo':
-                    	memein = await kagApi.memeindo()
-                    	buffer = await getBuffer(`https://imgur.com/${memein.hash}.jpg`)
-                    	client.sendMessage(from, buffer, image, {quoted: mek, caption: '.......'})
-                    	break*/
+                /*case 'memeindo':
+                    memein = await kagApi.memeindo()
+                    buffer = await getBuffer(`https://imgur.com/${memein.hash}.jpg`)
+                    client.sendMessage(from, buffer, image, {quoted: mek, caption: '.......'})
+                    break*/
 
                 case 'setprefix':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args.length < 1) return
                     if (!isOwner) return reply(mess.only.ownerB)
                     prefix = args[0]
@@ -2165,21 +2163,21 @@ async function starts() {
                     reply(`Prefix berhasil di ubah menjadi : ${prefix}`)
                     break
 
-                    /*case 'loli':
-                    	loli.getSFWLoli(async (err, res) => {
-                    		if (err) return reply('❌ *ERROR* ❌')
-                    		buffer = await getBuffer(res.url)
-                    		client.sendMessage(from, buffer, image, {quoted: mek, caption: 'Ingat! Citai Lolimu'})
-                    	})
-                    	break
-                    case 'nsfwloli':
-                    	if (!isNsfw) return reply('❌ *FALSE* ❌')
-                    	loli.getNSFWLoli(async (err, res) => {
-                    		if (err) return reply('❌ *ERROR* ❌')
-                    		buffer = await getBuffer(res.url)
-                    		client.sendMessage(from, buffer, image, {quoted: mek, caption: 'Jangan jadiin bahan buat comli om'})
-                    	})
-                    	break*/
+                /*case 'loli':
+                    loli.getSFWLoli(async (err, res) => {
+                        if (err) return reply('❌ *ERROR* ❌')
+                        buffer = await getBuffer(res.url)
+                        client.sendMessage(from, buffer, image, {quoted: mek, caption: 'Ingat! Citai Lolimu'})
+                    })
+                    break
+                case 'nsfwloli':
+                    if (!isNsfw) return reply('❌ *FALSE* ❌')
+                    loli.getNSFWLoli(async (err, res) => {
+                        if (err) return reply('❌ *ERROR* ❌')
+                        buffer = await getBuffer(res.url)
+                        client.sendMessage(from, buffer, image, {quoted: mek, caption: 'Jangan jadiin bahan buat comli om'})
+                    })
+                    break*/
 
                 case 'hilih':
                     if (args.length < 1) return reply('Teksnya mana um?')
@@ -2190,8 +2188,8 @@ async function starts() {
                     break
 
                 case 'yt2mp3':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args.length < 1) return reply('Urlnya mana um?')
                     if (!isUrl(args[0]) && !args[0].includes('youtu')) return reply(mess.error.Iv)
                     //anu = await fetchJson(`https://api.zeks.xyz/api/ytmp3/2?q=${args[0]}&apikey=apivinz`)
@@ -2213,8 +2211,8 @@ async function starts() {
                     break
 
                 case 'ytsearch':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args.length < 1) return reply('Yang mau di cari apaan? titit?')
                     anu = await fetchJson(`https://mhankbarbar.tech/api/ytsearch?q=${body.slice(10)}&apiKey=BarBarKey`, {
                         method: 'get'
@@ -2228,8 +2226,8 @@ async function starts() {
                     break
 
                 case 'tiktok':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args.length < 1) return reply('Urlnya mana um?')
                     if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply(mess.error.Iv)
                     reply(mess.wait)
@@ -2244,8 +2242,8 @@ async function starts() {
                     break
 
                 case 'tiktokstalk':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nUse esse comando seguido do nome de usuário do tiktok que deseja stalkear 🤫')
                     try {
                         if (args.length < 1) return client.sendMessage(from, 'Acho que você esqueceu do nome de usuário...', text, {
@@ -2270,8 +2268,8 @@ async function starts() {
 
                 case 'nulis':
                 case 'tulis':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args.length < 1) return reply('Yang mau di tulis apaan?')
                     teks = body.slice(7)
                     reply(mess.wait)
@@ -2287,8 +2285,8 @@ async function starts() {
                     break
 
                 case 'url2img':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     tipelist = ['desktop', 'tablet', 'mobile']
                     if (args.length < 1) return reply('Tipenya apa um?')
                     if (!tipelist.includes(args[0])) return reply('Tipe desktop|tablet|mobile')
@@ -2305,30 +2303,30 @@ async function starts() {
                     })
                     break
 
-                    /*case 'tstiker':
-                    case 'tsticker':
-                    	if (args.length < 1) return reply('Textnya mana um?')
-                    	ranp = getRandom('.png')
-                    	rano = getRandom('.webp')
-                    	teks = body.slice(9).trim()
-                    	anu = await fetchJson(`https://mhankbarbar.tech/api/text2image?text=${teks}&apiKey=${apiKey}`, {method: 'get'})
-                    	if (anu.error) return reply(anu.error)
-                    	exec(`wget ${anu.result} -O ${ranp} && ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${rano}`, (err) => {
-                    		fs.unlinkSync(ranp)
-                    		if (err) return reply(mess.error.stick)
-                    		exec(`webpmux -set exif ${addMetadata('Alice Bot', authorname)} ${rano} -o ${rano}`, async (error) => {
-                    			if (error) return reply(mess.error.stick)
-                    			client.sendMessage(from, fs.readFileSync(rano), sticker, {quoted: mek})
-                    			fs.unlinkSync(rano)
-                    		})
-                    		/*client.sendMessage(from, fs.readFileSync(rano), sticker, {quoted: mek})
-                    		fs.unlinkSync(rano)
-                    	})
-                    	break*/
+                /*case 'tstiker':
+                case 'tsticker':
+                    if (args.length < 1) return reply('Textnya mana um?')
+                    ranp = getRandom('.png')
+                    rano = getRandom('.webp')
+                    teks = body.slice(9).trim()
+                    anu = await fetchJson(`https://mhankbarbar.tech/api/text2image?text=${teks}&apiKey=${apiKey}`, {method: 'get'})
+                    if (anu.error) return reply(anu.error)
+                    exec(`wget ${anu.result} -O ${ranp} && ffmpeg -i ${ranp} -vcodec libwebp -filter:v fps=fps=20 -lossless 1 -loop 0 -preset default -an -vsync 0 -s 512:512 ${rano}`, (err) => {
+                        fs.unlinkSync(ranp)
+                        if (err) return reply(mess.error.stick)
+                        exec(`webpmux -set exif ${addMetadata('Alice Bot', authorname)} ${rano} -o ${rano}`, async (error) => {
+                            if (error) return reply(mess.error.stick)
+                            client.sendMessage(from, fs.readFileSync(rano), sticker, {quoted: mek})
+                            fs.unlinkSync(rano)
+                        })
+                        /*client.sendMessage(from, fs.readFileSync(rano), sticker, {quoted: mek})
+                        fs.unlinkSync(rano)
+                    })
+                    break*/
 
                 case 'tagall':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCom isso você pode chamar todos do grupo. Envie /tagall2 ou 3 para ver outras alternativas de chamar todo mundo :)')
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
@@ -2341,24 +2339,24 @@ async function starts() {
                     }
                     mentions(teks, members_id, true)
                     break
-                   case 'comando':
-                   mentioned = mek.message.extendedTextMessage.contextInfo.mentionedJid 
-                  /* var textoBrabo = `gay ${mem.jid.split('@')[0]}`
-                    var cacetada = {
-                        text: textoBrabo,
-                        contextInfo: {
-                            mentionedJid: [mencionado]
-                        },
-                    }*/
+                case 'comando':
+                    mentioned = mek.message.extendedTextMessage.contextInfo.mentionedJid
+                    /* var textoBrabo = `gay ${mem.jid.split('@')[0]}`
+                      var cacetada = {
+                          text: textoBrabo,
+                          contextInfo: {
+                              mentionedJid: [mencionado]
+                          },
+                      }*/
                     mentions(`@${mentioned[0].split('@')[0]} gay`, mentioned, true)
-                    
-                    
-                     break
+
+
+                    break
 
 
                 case 'tagall2':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     members_id = []
                     teks = (args.length > 1) ? body.slice(8).trim() : ''
                     teks += '\n\n'
@@ -2370,8 +2368,8 @@ async function starts() {
                     break
 
                 case 'tagall3':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     members_id = []
                     teks = (args.length > 1) ? body.slice(8).trim() : ''
                     teks += '\n\n'
@@ -2396,8 +2394,8 @@ async function starts() {
                     break
 
                 case 'bc':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (!isOwner) return reply('Esse comando só pode ser usador pelo carinha que cuida de mim.')
                     if (args.length < 1) return reply('O que deseja transmitir?')
                     anu = await client.chats.all()
@@ -2419,8 +2417,8 @@ async function starts() {
                     break
 
                 case 'promover':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCaro Ademiro, use isso para promover um membro a adm! lembre-se de menciona-lo após o comando.')
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
@@ -2441,8 +2439,8 @@ async function starts() {
                     break
 
                 case 'rebaixar':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCaro Ademiro, você pode usar esse comando para promover outros Ademiros a membros!')
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
@@ -2463,8 +2461,8 @@ async function starts() {
                     break
 
                 case 'adicionar':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCaro Ademiro, você pode usar esse comando para adicionar novos membros ao grupo')
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
@@ -2480,8 +2478,8 @@ async function starts() {
                     }
                     break
                 case 'remover':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCaro Ademiro, você pode usar esse comando para remover aqueles membros chatos. Use com sabedoria :)')
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
@@ -2502,8 +2500,8 @@ async function starts() {
                     break
 
                 case 'admins':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nUse esse comando para listar todos os adms do grupo.')
                     if (!isGroup) return reply(mess.only.group)
                     teks = `*Lista de ademiros do grupo* *${groupMetadata.subject}*\nTotal : ${groupAdmins.length}\n\n`
@@ -2516,8 +2514,8 @@ async function starts() {
                     break
                 case 'linkgrupo':
                 case 'linkgroup':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nUse esse comando para obter o link do grupo :)')
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
@@ -2527,8 +2525,8 @@ async function starts() {
                     break
 
                 case 'sair':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (!isGroup) return reply(mess.only.group)
                     if (isGroupAdmins || isOwner) {
                         client.groupLeave(from)
@@ -2538,8 +2536,8 @@ async function starts() {
                     break
 
                 case 'toimg':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nEnvie esse comando que eu transformo uma figurinha em imagem pra você :)')
                     if (!isQuotedSticker) return reply('Acho qur você esqueceu de algo... Tente responder uma figurinha com esse comando.')
                     reply(mess.wait)
@@ -2559,8 +2557,8 @@ async function starts() {
                     break
 
                 case 'simi':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args.length < 1) return reply('Textnya mana um?')
                     teks = body.slice(5)
                     //anu = await simih(teks)fetchJson(`https://mhankbarbars.herokuapp.com/api/samisami?text=${teks}`, {method: 'get'})
@@ -2573,8 +2571,8 @@ async function starts() {
                     break
 
                 case 'simih':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
                     if (args.length < 1) return reply('Hmmmm')
@@ -2593,8 +2591,8 @@ async function starts() {
                     break
 
                 case 'welcome':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nCaro Ademiro, use esse comando se se quiser que eu dê boas vindas aos novos membros que entrarem no grupo :)')
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
@@ -2614,8 +2612,8 @@ async function starts() {
                     break
 
                 case 'clone':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                    
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (!isGroup) return reply(mess.only.group)
                     if (!isGroupAdmins) return reply(mess.only.admin)
                     if (args.length < 1) return reply('Selecione o alvo')
@@ -2635,8 +2633,8 @@ async function starts() {
                     break
 
                 case 'wait':
-                  if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
-                     
+                    if (!isUser) return client.sendMessage(from, "Bem, parece que você não se registrou... Então, se quiser usar meus comandos, terá que se registrar :) Envie /registrar", text)
+
                     if (args[0] == 'ajuda') return reply('Olá :)\nUse esse comando para procurar aquele anime que você não sabe o nome apenas pela foto!! (Não é tão preciso, mas dou o meu melhor)')
                     if ((isMedia && !mek.message.videoMessage || isQuotedImage) && args.length == 0) {
                         reply(mess.wait)
@@ -2657,7 +2655,7 @@ async function starts() {
 
                 default:
                     if (isCmd) {
-                      reply(`Olá :)\nEsse comando não consta no meu banco de dados.\nEnvie ${prefix}menu para ver os meus comandos :)`)
+                        reply(`Olá :)\nEsse comando não consta no meu banco de dados.\nEnvie ${prefix}menu para ver os meus comandos :)`)
                     }
                     if (isGroup && isSimi && budy != undefined) {
                         console.log(budy)
